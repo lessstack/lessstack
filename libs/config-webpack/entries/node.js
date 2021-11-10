@@ -17,7 +17,13 @@ const {
   // eslint-disable-next-line import/no-unresolved
 } = require("@witb/config-webpack/alias/client");
 
-export const pipeToResponse = (res, { publicRoute, location }) =>
+const defaultLogger =
+  (process.env.NODE_ENV ?? "development") === "development" ? console : null;
+
+export const pipeToResponse = (
+  res,
+  { publicRoute, location, logger = defaultLogger },
+) =>
   new Promise((resolve, reject) => {
     const extractor = new ChunkExtractor({
       publicPath: publicRoute,
@@ -66,18 +72,15 @@ export const pipeToResponse = (res, { publicRoute, location }) =>
           )}`;
 
           if (!collector.scriptsAdded) {
-            // eslint-disable-next-line no-console
-            console.warn(
+            logger?.warn(
               `Custom Document does not contain <ExtractedScripts />`,
             );
           }
           if (!collector.linksAdded) {
-            // eslint-disable-next-line no-console
-            console.warn(`Custom Document does not contain <ExtractedLinks />`);
+            logger.warn(`Custom? Document does not contain <ExtractedLinks />`);
           }
           if (!collector.stylesAdded) {
-            // eslint-disable-next-line no-console
-            console.warn(
+            logger?.warn(
               `Custom Document does not contain <ExtractedStyles />`,
             );
           }
