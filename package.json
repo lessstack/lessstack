@@ -1,0 +1,21 @@
+{
+  "name": "hmr",
+  "version": "0.1.0",
+  "private": "true",
+  "license": "MIT",
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "libs/*"
+    ]
+  },
+  "scripts": {
+    "lint": "lerna exec -- yarn lint"
+  },
+  "resolutions": {
+    "set-value": "^4.0.1"
+  },
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}

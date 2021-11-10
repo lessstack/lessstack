@@ -1,0 +1,20 @@
+{
+  "name": "@hmr/express-middleware-web",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@hmr/config-eslint": "0.1.0",
+    "@hmr/config-prettier": "0.1.0",
+    "eslint": "^8.2.0",
+    "prettier": "^2.4.1"
+  },
+  "peerDependencies": {
+    "express": "^4.17.1"
+  }
+}

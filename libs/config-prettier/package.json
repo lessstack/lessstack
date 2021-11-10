@@ -1,0 +1,13 @@
+{
+  "name": "@hmr/config-prettier",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "lint": "echo"
+  },
+  "peerDependencies": {
+    "prettier": "^2.4.1"
+  }
+}
