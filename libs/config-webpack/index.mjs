@@ -43,7 +43,7 @@ export const createConfig = ({
 
     resolve: {
       alias: {
-        "@hmr/config-webpack/alias/client": path.join(
+        "@witb/config-webpack/alias/client": path.join(
           process.cwd(),
           "src",
           `${target}.js`,
@@ -127,7 +127,7 @@ export const createConfig = ({
       }),
       !isBrowser &&
         new webpack.DefinePlugin({
-          __HMR__: JSON.stringify({
+          __WITB__: JSON.stringify({
             publicPath,
             statsPath: path.join(buildPath, `browser-stats.json`),
           }),

@@ -5,17 +5,17 @@ import { ChunkExtractor } from "@loadable/server";
 import RenderProvider from "../components/RenderProvider";
 import DefaultDocument from "../components/Document";
 
-// __HMR__ is defined by webpack
+// __WITB__ is defined by webpack
 // eslint-disable-next-line no-undef
-const { publicPath, statsPath } = __HMR__;
+const { publicPath, statsPath } = __WITB__;
 
 const {
   default: Client,
   doctype = "<!DOCTYPE html>",
   Document = DefaultDocument,
-  // @hmr/config-webpack/alias/client is aliased by webpack
+  // @witb/config-webpack/alias/client is aliased by webpack
   // eslint-disable-next-line import/no-unresolved
-} = require("@hmr/config-webpack/alias/client");
+} = require("@witb/config-webpack/alias/client");
 
 export const pipeToResponse = (res, { publicRoute, location }) =>
   new Promise((resolve, reject) => {

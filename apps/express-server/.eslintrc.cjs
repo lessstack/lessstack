@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: [require.resolve("@hmr/config-eslint")],
+  extends: [require.resolve("@witb/config-eslint")],
   env: {
     browser: true,
   },

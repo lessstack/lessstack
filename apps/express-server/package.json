@@ -1,5 +1,5 @@
 {
-  "name": "@hmr/express-server",
+  "name": "@witb/express-server",
   "version": "0.1.0",
   "main": "src/index.js",
   "license": "MIT",
@@ -10,14 +10,14 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@hmr/express-middleware-web": "0.1.0",
-    "@hmr/web-client": "0.1.0",
+    "@witb/express-middleware-web": "0.1.0",
+    "@witb/web-client": "0.1.0",
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "@hmr/clusterizer": "0.1.0",
-    "@hmr/config-eslint": "0.1.0",
-    "@hmr/config-prettier": "0.1.0",
+    "@witb/clusterizer": "0.1.0",
+    "@witb/config-eslint": "0.1.0",
+    "@witb/config-prettier": "0.1.0",
     "eslint": "^8.2.0",
     "prettier": "^2.4.1"
   }

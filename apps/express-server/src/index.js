@@ -1,6 +1,6 @@
 import express from "express";
-import client from "@hmr/web-client";
-import createWebMiddleware from "@hmr/express-middleware-web";
+import client from "@witb/web-client";
+import createWebMiddleware from "@witb/express-middleware-web";
 
 const app = express();
 

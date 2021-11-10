@@ -1,6 +1,6 @@
 ## TODO
 
-- find a real name to replace @hmr brand and \_\_HMR\_\_ webpack defined variable
+- ~~find a real name to replace @hmr brand and \_\_HMR\_\_ webpack defined variable~~
 - search a way to use unpublished in workspace eslint-config without resolving it
 - try again to make webpack-fontface works with linaria
 - improve clusterizer logging

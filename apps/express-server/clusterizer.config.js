@@ -1,4 +1,4 @@
-import client from "@hmr/web-client";
+import client from "@witb/web-client";
 
 const NODE_ENV = process.env.NODE_ENV || "development";
 

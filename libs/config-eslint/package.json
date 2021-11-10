@@ -1,5 +1,5 @@
 {
-  "name": "@hmr/config-eslint",
+  "name": "@witb/config-eslint",
   "version": "0.1.0",
   "main": "index.js",
   "license": "MIT",
@@ -8,7 +8,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@hmr/config-prettier": "0.1.0",
+    "@witb/config-prettier": "0.1.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.2",

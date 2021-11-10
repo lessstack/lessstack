@@ -1,5 +1,5 @@
 {
-  "name": "@hmr/clusterizer",
+  "name": "@witb/clusterizer",
   "version": "0.1.0",
   "main": "src/pool.js",
   "author": "cahnory <cahnory@gmail.com>",
@@ -16,8 +16,8 @@
     "chokidar": "^3.5.2"
   },
   "devDependencies": {
-    "@hmr/config-eslint": "0.1.0",
-    "@hmr/config-prettier": "0.1.0",
+    "@witb/config-eslint": "0.1.0",
+    "@witb/config-prettier": "0.1.0",
     "eslint": "^8.2.0",
     "prettier": "^2.4.1"
   }

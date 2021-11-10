@@ -1,5 +1,5 @@
 import React from "react";
-import { loadable, ResponsePropType } from "@hmr/config-webpack/utils";
+import { loadable, ResponsePropType } from "@witb/config-webpack/utils";
 import { Routes, Route } from "react-router-dom";
 
 const Error404Page = loadable(() => import("./pages/Error404Page"));

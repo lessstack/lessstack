@@ -1,3 +1,3 @@
-import config from "@hmr/config-webpack";
+import config from "@witb/config-webpack";
 
 export default config;

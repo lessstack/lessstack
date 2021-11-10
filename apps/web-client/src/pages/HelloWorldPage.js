@@ -1,5 +1,5 @@
 import React from "react";
-import { css } from "@hmr/config-webpack/utils";
+import { css } from "@witb/config-webpack/utils";
 
 const HelloWorldPage = () => (
   <div>
