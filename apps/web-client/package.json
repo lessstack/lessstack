@@ -13,7 +13,7 @@
   "dependencies": {
     "@witb/config-webpack": "0.1.0",
     "prop-types": "^15.7.2",
-    "react": "^18.0.0-alpha-327d5c484-20211106",
+    "react": "18.0.0-alpha-cb11155c8-20211112",
     "react-router-dom": "^6.0.1"
   },
   "devDependencies": {
