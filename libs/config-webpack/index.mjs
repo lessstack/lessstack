@@ -4,6 +4,7 @@ import { WebpackPluginServe } from "webpack-plugin-serve";
 import WebpackLoadablePlugin from "@loadable/webpack-plugin";
 import WebpackMiniCssExtractPlugin from "mini-css-extract-plugin";
 import WebpackReactRefreshPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import ImageMinimizerPlugin from "image-minimizer-webpack-plugin";
 
 export const createConfig = ({
   // "browser" | "node" = "browser"
@@ -19,9 +20,9 @@ export const createConfig = ({
   const isHot = watch && isBrowser;
 
   const buildPath = path.join(process.cwd(), "build");
-  const outputPath = path.join(buildPath, target);
+  const outputPath = isBrowser ? path.join(buildPath, target) : buildPath;
   const publicPath = path.join(buildPath, "browser");
-  const statsPath = path.join(buildPath, `${target}-stats.json`);
+  const statsPath = path.join(buildPath, `${target}.stats.json`);
   const babelOptions = {
     presets: ["@babel/preset-env", "@babel/preset-react"],
     plugins: [
@@ -37,9 +38,18 @@ export const createConfig = ({
     mode,
     watch: typeof env.WEBPACK_WATCH === "boolean" ? null : watch,
 
-    devtool:
-      (!isBrowser && "source-map") ||
-      (isDevelopment && "eval-cheap-module-source-map"),
+    entry: [
+      !isBrowser && "source-map-support/register",
+      isHot && "webpack-plugin-serve/client",
+      path.join(path.dirname(import.meta.url), "entries", `${target}.js`),
+    ].filter(Boolean),
+
+    output: {
+      path: outputPath,
+      library: { type: "umd" },
+      filename: isBrowser ? "[name].[contenthash].js" : "node.js",
+      clean: true,
+    },
 
     resolve: {
       alias: {
@@ -51,17 +61,16 @@ export const createConfig = ({
       },
     },
 
-    entry: [
-      !isBrowser && "source-map-support/register",
-      isHot && "webpack-plugin-serve/client",
-      path.join(path.dirname(import.meta.url), "entries", `${target}.js`),
-    ].filter(Boolean),
-    output: {
-      path: outputPath,
-      library: { type: "umd" },
-      filename: isBrowser ? "[name].[contenthash].js" : "[name].js",
-      clean: true,
+    stats: {
+      preset: "minimal",
+      assetsSpace: 15,
+      groupAssetsByExtension: true,
     },
+
+    devtool:
+      (!isBrowser && "source-map") ||
+      (isDevelopment && "eval-cheap-module-source-map"),
+
     optimization: !isBrowser
       ? {}
       : {
@@ -115,6 +124,13 @@ export const createConfig = ({
             },
           ],
         },
+        {
+          test: /\.(svg|jpg|gif|png)$/,
+          type: "asset/resource",
+          generator: {
+            emit: isBrowser,
+          },
+        },
       ],
     },
     plugins: [
@@ -122,6 +138,16 @@ export const createConfig = ({
         new webpack.optimize.LimitChunkCountPlugin({
           maxChunks: 1,
         }),
+      new ImageMinimizerPlugin({
+        minimizerOptions: {
+          plugins: [
+            ["gifsicle", { interlaced: true }],
+            ["jpegtran", { progressive: true }],
+            ["optipng", { optimizationLevel: 5 }],
+            ["svgo"],
+          ],
+        },
+      }),
       new WebpackMiniCssExtractPlugin({
         filename: isHot ? "[name].css" : "[name].[contenthash].css",
       }),
@@ -129,7 +155,7 @@ export const createConfig = ({
         new webpack.DefinePlugin({
           __WITB__: JSON.stringify({
             publicPath,
-            statsPath: path.join(buildPath, `browser-stats.json`),
+            statsPath: path.join(buildPath, `browser.stats.json`),
           }),
         }),
       new WebpackLoadablePlugin({

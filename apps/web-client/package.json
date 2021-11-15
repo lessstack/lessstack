@@ -1,7 +1,7 @@
 {
   "name": "@witb/web-client",
   "version": "0.1.0",
-  "main": "build/node/main.js",
+  "main": "build/node.js",
   "license": "MIT",
   "private": true,
   "scripts": {

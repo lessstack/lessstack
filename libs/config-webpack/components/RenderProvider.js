@@ -12,7 +12,17 @@ const filterHmrElements = (elements) =>
 const Provider = ({ children, html, extractor, collector }) => (
   <Context.Provider
     value={{
-      scripts: filterHmrElements(extractor.getScriptElements()),
+      scripts: [
+        <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `WITB_ENVIRONMENT_VARS = ${JSON.stringify({
+              // eslint-disable-next-line no-undef, camelcase
+              webpackPublickPath: __webpack_public_path__,
+            })};`,
+          }}
+        />,
+      ].concat(filterHmrElements(extractor.getScriptElements())),
       links: filterHmrElements(extractor.getLinkElements()),
       styles: filterHmrElements(extractor.getStyleElements()),
       html,
