@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ResponsePropType } from "@witb/config-webpack/utils";
+import { ResponsePropType } from "@witb/webpack-config/utils";
 
 const HelloWorldPage = ({ response }) => {
   if (response) {

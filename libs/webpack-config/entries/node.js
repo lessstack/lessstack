@@ -62,7 +62,7 @@ export const setup = (options) => {
     doctype = "<!DOCTYPE html>",
     Document = DefaultDocument,
     // eslint-disable-next-line import/no-unresolved, global-require
-  } = require("@witb/config-webpack/alias/client"));
+  } = require("@witb/webpack-config/alias/client"));
 };
 
 export const isLoaded = () => clientIsLoaded;

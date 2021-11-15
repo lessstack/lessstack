@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@witb/eslint-config": "0.1.0",
-    "@witb/config-prettier": "0.1.0",
+    "@witb/prettier-config": "0.1.0",
     "eslint": "^8.2.0",
     "prettier": "^2.4.1"
   },

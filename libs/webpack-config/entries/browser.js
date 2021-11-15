@@ -4,7 +4,7 @@ import { loadableReady } from "@loadable/component";
 
 import "../utils/browserSetup";
 // eslint-disable-next-line import/no-unresolved
-import Client from "@witb/config-webpack/alias/client";
+import Client from "@witb/webpack-config/alias/client";
 
 loadableReady(() => {
   hydrateRoot(document.getElementById("app"), <Client />);

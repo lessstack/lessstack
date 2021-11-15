@@ -24,7 +24,7 @@ export const createConfig = ({
   const publicPath = path.join(buildPath, "browser");
   const statsPath = path.join(buildPath, `${target}.stats.json`);
   const babelOptions = {
-    presets: ["module:@witb/config-babel"],
+    presets: ["module:@witb/babel-config"],
   };
 
   return {
@@ -48,7 +48,7 @@ export const createConfig = ({
 
     resolve: {
       alias: {
-        "@witb/config-webpack/alias/client": path.join(
+        "@witb/webpack-config/alias/client": path.join(
           process.cwd(),
           "src",
           `${target}.js`,

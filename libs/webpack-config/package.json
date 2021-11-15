@@ -1,5 +1,5 @@
 {
-  "name": "@witb/config-webpack",
+  "name": "@witb/webpack-config",
   "version": "0.1.0",
   "main": "index.mjs",
   "license": "MIT",
@@ -38,9 +38,9 @@
     "webpack-plugin-serve": "^1.5.0"
   },
   "devDependencies": {
+    "@witb/babel-config": "0.1.0",
     "@witb/eslint-config": "0.1.0",
-    "@witb/config-babel": "0.1.0",
-    "@witb/config-prettier": "0.1.0",
+    "@witb/prettier-config": "0.1.0",
     "eslint": "^8.2.0",
     "prettier": "^2.4.1"
   },

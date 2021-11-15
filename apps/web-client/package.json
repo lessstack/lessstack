@@ -11,14 +11,14 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "@witb/config-webpack": "0.1.0",
+    "@witb/webpack-config": "0.1.0",
     "prop-types": "^15.7.2",
     "react": "18.0.0-alpha-cb11155c8-20211112",
     "react-router-dom": "^6.0.1"
   },
   "devDependencies": {
     "@witb/eslint-config": "0.1.0",
-    "@witb/config-prettier": "0.1.0",
+    "@witb/prettier-config": "0.1.0",
     "eslint": "^8.2.0",
     "prettier": "^2.4.1",
     "webpack-cli": "^4.9.1"

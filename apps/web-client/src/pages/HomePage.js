@@ -1,5 +1,5 @@
 import React from "react";
-import { css } from "@witb/config-webpack/utils";
+import { css } from "@witb/webpack-config/utils";
 import reactIcon from "../images/react-icon.svg";
 
 const HomePage = () => (
