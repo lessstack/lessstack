@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "lint": "echo"
+    "lint": "exit 0"
   },
   "peerDependencies": {
     "prettier": "^2.4.1"
