@@ -5,6 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "prepare": "babel src --out-dir build",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -38,6 +39,7 @@
     "webpack-plugin-serve": "^1.5.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.16.0",
     "@witb/babel-config": "0.1.0",
     "@witb/eslint-config": "0.1.0",
     "@witb/prettier-config": "0.1.0",

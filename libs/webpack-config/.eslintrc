@@ -1,9 +1,10 @@
 {
   "root": true,
   "extends": ["@witb"],
+  "ignorePatterns": ["/build"],
   "overrides": [
     {
-      "files": ["entries/browser.js"],
+      "files": ["src/entries/browser.js"],
       "env": {
         "browser": true
       }

@@ -36,14 +36,14 @@ export const createConfig = ({
     entry: [
       !isBrowser && "source-map-support/register",
       isHot && "webpack-plugin-serve/client",
-      path.join(path.dirname(import.meta.url), "entries", `${target}.js`),
+      path.join(path.dirname(import.meta.url), `build/entries/${target}.js`),
     ].filter(Boolean),
 
     output: {
       path: outputPath,
       library: { type: "umd" },
       filename: isBrowser ? "[name].[contenthash].js" : "node.js",
-      clean: true,
+      clean: isBrowser,
     },
 
     resolve: {
