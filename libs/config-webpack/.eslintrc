@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "extends": ["@witb"],
+  "overrides": [
+    {
+      "files": ["entries/browser.js"],
+      "env": {
+        "browser": true
+      }
+    }
+  ]
+}

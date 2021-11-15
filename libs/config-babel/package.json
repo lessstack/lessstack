@@ -1,21 +1,19 @@
 {
-  "name": "@witb/express-server",
+  "name": "@witb/config-babel",
   "version": "0.1.0",
-  "main": "src/index.js",
+  "main": "index.js",
   "license": "MIT",
-  "private": true,
-  "type": "module",
   "scripts": {
-    "start": "clusterizer",
     "lint": "eslint ."
   },
   "dependencies": {
-    "@witb/express-middleware-web": "0.1.0",
-    "@witb/web-client": "0.1.0",
-    "express": "^4.17.1"
+    "@babel/core": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/preset-react": "^7.16.0",
+    "@babel/runtime": "^7.16.3"
   },
   "devDependencies": {
-    "@witb/clusterizer": "0.1.0",
     "@witb/eslint-config": "0.1.0",
     "@witb/config-prettier": "0.1.0",
     "eslint": "^8.2.0",
