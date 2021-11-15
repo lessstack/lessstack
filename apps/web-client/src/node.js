@@ -5,15 +5,15 @@ import { ResponsePropType } from "@witb/config-webpack/utils";
 
 import App from "./App";
 
-const NodeClient = ({ location, response }) => (
+const NodeEntry = ({ location, response }) => (
   <StaticRouter location={location}>
     <App response={response} />
   </StaticRouter>
 );
 
-NodeClient.propTypes = {
+NodeEntry.propTypes = {
   location: PropTypes.string.isRequired,
   response: ResponsePropType.isRequired,
 };
 
-export default NodeClient;
+export default NodeEntry;

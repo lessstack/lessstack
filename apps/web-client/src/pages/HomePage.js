@@ -1,13 +1,15 @@
 import React from "react";
 import { css } from "@witb/config-webpack/utils";
+import reactIcon from "../images/react-icon.svg";
 
-const HelloWorldPage = () => (
+const HomePage = () => (
   <div>
     Hello <span className={style}>World</span>!
+    <img alt="" src={reactIcon} />
   </div>
 );
 
-export default HelloWorldPage;
+export default HomePage;
 
 const style = css`
   color: #ff22cc;

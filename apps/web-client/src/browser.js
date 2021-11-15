@@ -2,10 +2,10 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 
-const BrowserClient = () => (
+const BrowserEntry = () => (
   <BrowserRouter>
     <App />
   </BrowserRouter>
 );
 
-export default BrowserClient;
+export default BrowserEntry;

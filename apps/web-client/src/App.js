@@ -3,11 +3,11 @@ import { loadable, ResponsePropType } from "@witb/config-webpack/utils";
 import { Routes, Route } from "react-router-dom";
 
 const Error404Page = loadable(() => import("./pages/Error404Page"));
-const HelloWorldPage = loadable(() => import("./pages/HelloWorldPage"));
+const HomePage = loadable(() => import("./pages/HomePage"));
 
 const App = ({ response }) => (
   <Routes>
-    <Route path="/" element={<HelloWorldPage />} />
+    <Route path="/" element={<HomePage />} />
     <Route path="*" element={<Error404Page response={response} />} />
   </Routes>
 );
