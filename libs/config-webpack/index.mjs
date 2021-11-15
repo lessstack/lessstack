@@ -24,12 +24,7 @@ export const createConfig = ({
   const publicPath = path.join(buildPath, "browser");
   const statsPath = path.join(buildPath, `${target}.stats.json`);
   const babelOptions = {
-    presets: ["@babel/preset-env", "@babel/preset-react"],
-    plugins: [
-      "@babel/plugin-transform-runtime",
-      "@loadable/babel-plugin",
-      isHot && "react-refresh/babel",
-    ].filter(Boolean),
+    presets: ["module:@witb/config-babel"],
   };
 
   return {
