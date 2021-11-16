@@ -12,14 +12,17 @@
     "prepare": "npm run build"
   },
   "dependencies": {
+    "@linaria/core": "^3.0.0-beta.13",
+    "@loadable/component": "^5.15.0",
     "@witb/webpack-config": "0.1.0",
     "prop-types": "^15.7.2",
-    "react": "18.0.0-alpha-cb11155c8-20211112",
+    "react": "^18.0.0-beta-96ca8d915-20211115",
     "react-router-dom": "^6.0.1"
   },
   "devDependencies": {
     "@testing-library/react": "^13.0.0-alpha.4",
     "@witb/eslint-config": "0.1.0",
+    "@witb/jest-config": "0.1.0",
     "@witb/prettier-config": "0.1.0",
     "eslint": "^8.2.0",
     "jest": "^27.3.1",

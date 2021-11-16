@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { MemoryRouter } from "react-router-dom";
+import { render as testingLibraryRender } from "@testing-library/react";
 
 const JestContext = ({ children, initialEntries, initialIndex }) => (
   <MemoryRouter initialEntries={initialEntries} initialIndex={initialIndex}>
@@ -28,5 +29,8 @@ JestContext.propTypes = {
   ),
   initialIndex: PropTypes.number,
 };
+
+export const render = (ui, options) =>
+  testingLibraryRender(ui, { wrapper: JestContext, ...options });
 
 export default JestContext;
