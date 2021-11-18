@@ -1,6 +1,6 @@
-import { STATES as FORK_STATES } from "./fork.mjs";
-import { STATES as POOL_STATES } from "./pool.mjs";
-import { STATES as WATCHER_STATES } from "./watcher.mjs";
+import { STATES as FORK_STATES } from "./fork.js";
+import { STATES as POOL_STATES } from "./pool.js";
+import { STATES as WATCHER_STATES } from "./watcher.js";
 
 const PADDED_STATES_NAMES = {
   [FORK_STATES.STOPPED]: "STOPPED  ",

@@ -1,4 +1,4 @@
-import createFork, { STATES as FORK_STATES } from "./fork.mjs";
+import createFork, { STATES as FORK_STATES } from "./fork.js";
 
 export const STATES = {
   STOPPED: "STOPPED",

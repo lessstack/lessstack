@@ -1,5 +1,5 @@
 import { cpus } from "os";
-import defaultLogger from "./logger.mjs";
+import defaultLogger from "./logger.js";
 
 const DEFAULT_KILL_SIGNAL = "SIGINT";
 const DEFAULT_MAX_INSTANCES = cpus().length;

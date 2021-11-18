@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { readFile } from "fs/promises";
 import path from "path";
-import createPool from "./src/pool.mjs";
-import createSettings from "./src/settings.mjs";
-import createWatcher from "./src/watcher.mjs";
+import createPool from "./src/pool.js";
+import createSettings from "./src/settings.js";
+import createWatcher from "./src/watcher.js";
 
 const resolveImport = async (basePath, extensions) => {
   try {
