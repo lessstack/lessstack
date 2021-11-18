@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Context } from "./RenderProvider";
+import { Context } from "./RenderProvider.js";
 
 const ExtractedLinks = () => {
   const { links, collector } = useContext(Context);

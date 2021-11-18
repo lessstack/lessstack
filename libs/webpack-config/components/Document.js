@@ -1,8 +1,8 @@
 import React from "react";
-import ExtractedScripts from "./ExtractedScripts";
-import ExtractedLinks from "./ExtractedLinks";
-import ExtractedStyles from "./ExtractedStyles";
-import Root from "./Root";
+import ExtractedScripts from "./ExtractedScripts.js";
+import ExtractedLinks from "./ExtractedLinks.js";
+import ExtractedStyles from "./ExtractedStyles.js";
+import Root from "./Root.js";
 
 const Document = () => (
   <html lang="en">

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { Context } from "./RenderProvider";
+import { Context } from "./RenderProvider.js";
 
 const Root = ({ as: Component, ...props }) => {
   const { html, collector } = useContext(Context);

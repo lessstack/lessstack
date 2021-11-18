@@ -36,7 +36,7 @@ export const createConfig = ({
     entry: [
       !isBrowser && "source-map-support/register",
       isHot && "webpack-plugin-serve/client",
-      path.join(path.dirname(import.meta.url), `build/entries/${target}.js`),
+      path.join(path.dirname(import.meta.url), `entries/${target}.js`),
     ].filter(Boolean),
 
     output: {
@@ -50,8 +50,7 @@ export const createConfig = ({
       alias: {
         "@witb/webpack-config/alias/client": path.join(
           process.cwd(),
-          "src",
-          `${target}.js`,
+          `src/${target}.js`,
         ),
       },
     },

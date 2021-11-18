@@ -6,8 +6,8 @@ import {
 } from "react-dom/server";
 import { ChunkExtractor } from "@loadable/server";
 
-import RenderProvider from "../components/RenderProvider";
-import DefaultDocument from "../components/Document";
+import RenderProvider from "../components/RenderProvider.js";
+import DefaultDocument from "../components/Document.js";
 
 // __WITB__ is defined by webpack
 // eslint-disable-next-line no-undef
