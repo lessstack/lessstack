@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { readFile } from "fs/promises";
+import { createRequire } from "module";
 import path from "path";
 import createPool from "./src/pool.js";
 import createSettings from "./src/settings.js";
@@ -32,14 +32,7 @@ try {
 }
 
 // package's main or index.js as config.exec fallback
-const execFallback = path.join(
-  process.cwd(),
-  JSON.parse(
-    await readFile(`${path.join(process.cwd(), "./package.json")}`).catch(
-      () => "{}",
-    ),
-  ).main ?? "index.js",
-);
+const execFallback = createRequire(process.cwd()).resolve(process.cwd());
 
 // create settings from config
 const settingsList = configList.map((config, key) => ({
