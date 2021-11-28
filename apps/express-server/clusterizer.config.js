@@ -3,7 +3,6 @@ import client from "@witb/web-client";
 const NODE_ENV = process.env.NODE_ENV || "development";
 
 const commonConfig = {
-  execArgv: "--experimental-specifier-resolution=node",
   env: {
     NODE_ENV,
   },

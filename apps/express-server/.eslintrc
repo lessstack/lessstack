@@ -1,8 +1,4 @@
 {
   "root": true,
-  "extends": ["@witb"],
-  "env": {
-    "browser": true
-  },
-  "ignorePatterns": ["/build"]
+  "extends": ["@witb/eslint-config/esm"]
 }

@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^13.0.0-alpha.4",
+    "@witb/babel-config": "0.1.0",
     "@witb/eslint-config": "0.1.0",
     "@witb/jest-config": "0.1.0",
     "@witb/prettier-config": "0.1.0",
