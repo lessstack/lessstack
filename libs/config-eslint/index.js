@@ -13,6 +13,7 @@ module.exports = {
     "no-use-before-define": ["error", { variables: false }],
     "prettier/prettier": ["error"],
     "react/jsx-filename-extension": ["off"],
+    "sort-imports": ["error", { ignoreDeclarationSort: true }],
   },
   overrides: [
     {
