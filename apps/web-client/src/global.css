@@ -1,0 +1,29 @@
+html {
+  font-size: 62.5%;
+  font-size: calc(1em * 0.625);
+  height: 100%;
+}
+
+body {
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+html,
+body,
+#app {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  outline-color: inherit;
+}
+
+:root {
+  --root-client-width: 100%;
+}

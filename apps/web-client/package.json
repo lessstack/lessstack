@@ -15,6 +15,7 @@
     "@linaria/core": "^3.0.0-beta.13",
     "@loadable/component": "^5.15.0",
     "@witb/webpack-config": "0.1.0",
+    "@witb/uikit": "0.1.0",
     "prop-types": "^15.7.2",
     "react": "^18.0.0-beta-96ca8d915-20211115",
     "react-router-dom": "^6.0.1"

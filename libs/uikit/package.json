@@ -1,0 +1,24 @@
+{
+  "name": "@witb/uikit",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@linaria/core": "^3.0.0-beta.13",
+    "prop-types": "^15.7.2",
+    "react": "^18.0.0-beta-96ca8d915-20211115",
+    "react-router-dom": "^6.0.1"
+  },
+  "devDependencies": {
+    "@witb/babel-config": "0.1.0",
+    "@witb/eslint-config": "0.1.0",
+    "@witb/prettier-config": "0.1.0",
+    "eslint": "^8.2.0",
+    "prettier": "^2.4.1"
+  }
+}

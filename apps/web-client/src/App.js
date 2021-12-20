@@ -3,6 +3,8 @@ import { ResponsePropType } from "@witb/webpack-config/utils";
 import loadable from "@loadable/component";
 import { Routes, Route } from "react-router-dom";
 
+import "./global.css";
+
 const Error404Page = loadable(() => import("./pages/Error404Page"));
 const HomePage = loadable(() => import("./pages/HomePage"));
 
