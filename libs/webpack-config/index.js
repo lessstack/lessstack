@@ -1,7 +1,7 @@
 import path from "path";
 import webpack from "webpack";
 import { WebpackPluginServe } from "webpack-plugin-serve";
-import WebpackLoadablePlugin from "@loadable/webpack-plugin";
+import { WebpackManifestPlugin } from "webpack-manifest-plugin";
 import WebpackMiniCssExtractPlugin from "mini-css-extract-plugin";
 import WebpackReactRefreshPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import ImageMinimizerPlugin from "image-minimizer-webpack-plugin";
@@ -65,22 +65,40 @@ export const createConfig = ({
       (!isBrowser && "source-map") ||
       (isDevelopment && "eval-cheap-module-source-map"),
 
-    optimization: !isBrowser
-      ? {}
-      : {
-          moduleIds: "deterministic",
-          runtimeChunk: isHot ? "single" : { name: "vendors" },
-          splitChunks: {
-            chunks: "all",
-            minSize: 0,
-            cacheGroups: {
-              vendors: {
-                test: /[\\/]node_modules[\\/]/,
-                name: "vendors",
-              },
+    optimization: {
+      minimizer: [
+        "...",
+        new ImageMinimizerPlugin({
+          minimizer: {
+            implementation: ImageMinimizerPlugin.imageminMinify,
+            options: {
+              plugins: [
+                ["gifsicle", { interlaced: true }],
+                ["jpegtran", { progressive: true }],
+                ["optipng", { optimizationLevel: 5 }],
+                ["svgo"],
+              ],
             },
           },
-        },
+        }),
+      ],
+      ...(!isBrowser
+        ? {}
+        : {
+            moduleIds: "deterministic",
+            runtimeChunk: "single", // isHot ? "single" : { name: "vendors" },
+            splitChunks: {
+              chunks: "all",
+              minSize: 0,
+              cacheGroups: {
+                vendors: {
+                  test: /[\\/]node_modules[\\/]/,
+                  name: "vendors",
+                },
+              },
+            },
+          }),
+    },
 
     module: {
       rules: [
@@ -132,18 +150,43 @@ export const createConfig = ({
         new webpack.optimize.LimitChunkCountPlugin({
           maxChunks: 1,
         }),
-      new ImageMinimizerPlugin({
-        minimizerOptions: {
-          plugins: [
-            ["gifsicle", { interlaced: true }],
-            ["jpegtran", { progressive: true }],
-            ["optipng", { optimizationLevel: 5 }],
-            ["svgo"],
-          ],
-        },
-      }),
       new WebpackMiniCssExtractPlugin({
         filename: isHot ? "[name].css" : "[name].[contenthash].css",
+      }),
+      new WebpackManifestPlugin({
+        fileName: statsPath,
+        publicPath: "/",
+        generate: (_, files, entries) => {
+          const categories = {
+            js: "scripts",
+            css: "styles",
+          };
+          return entries.main.reduce(
+            (acc, entry) => {
+              const file = files.find((file) => file.path === `/${entry}`);
+              const [, ext] = file.path.match(/\.(js|css)$/) || [];
+
+              if (!ext) {
+                return acc;
+              }
+
+              acc[categories[ext]].push({
+                name: file.name,
+                path: file.path,
+                isAsset: file.isAsset,
+                isChunk: file.isChunk,
+                isInitial: file.isInitial,
+                isModuleAsset: file.isModuleAsset,
+              });
+
+              return acc;
+            },
+            {
+              scripts: [],
+              styles: [],
+            },
+          );
+        },
       }),
       !isBrowser &&
         new webpack.DefinePlugin({
@@ -152,9 +195,6 @@ export const createConfig = ({
             statsPath: path.join(buildPath, `browser.stats.json`),
           }),
         }),
-      new WebpackLoadablePlugin({
-        filename: path.relative(outputPath, statsPath),
-      }),
       isHot &&
         new WebpackPluginServe({
           status: false,

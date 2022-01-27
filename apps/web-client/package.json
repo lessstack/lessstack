@@ -26,6 +26,7 @@
     "@witb/jest-config": "0.1.0",
     "@witb/prettier-config": "0.1.0",
     "eslint": "^8.2.0",
+    "imagemin": "^8.0.1",
     "jest": "^27.3.1",
     "prettier": "^2.4.1",
     "webpack-cli": "^4.9.1"

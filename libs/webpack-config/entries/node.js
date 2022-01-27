@@ -1,10 +1,6 @@
 import React from "react";
-import {
-  renderToStaticMarkup,
-  renderToPipeableStream,
-  renderToString as reactRenderToString,
-} from "react-dom/server";
-import { ChunkExtractor } from "@loadable/server";
+import { renderToStaticMarkup, renderToPipeableStream } from "react-dom/server";
+import fs from "fs";
 
 import RenderProvider from "../components/RenderProvider.js";
 import DefaultDocument from "../components/Document.js";
@@ -39,6 +35,7 @@ let publicRoute;
 let Client;
 let doctype;
 let Document;
+let bootstrapScripts;
 
 export const setup = (options) => {
   if (clientIsLoaded) {
@@ -56,6 +53,10 @@ export const setup = (options) => {
     // eslint-disable-next-line no-undef, camelcase
     __webpack_public_path__ = publicRoute;
   }
+
+  bootstrapScripts = JSON.parse(fs.readFileSync(statsPath))
+    .scripts.filter((script) => script.isInitial)
+    .map((script) => `${publicRoute}${script.path}`);
 
   ({
     default: Client,
@@ -76,11 +77,6 @@ export const pipeRenderToResponse = (
   }
 
   return new Promise((resolve, reject) => {
-    const extractor = new ChunkExtractor({
-      publicPath: publicRoute,
-      statsFile: statsPath,
-    });
-
     const response = {
       statusCode: null,
       statusMessage: null,
@@ -90,11 +86,12 @@ export const pipeRenderToResponse = (
     let toAppendFirst = "";
     let toAppendLast = "";
 
+    console.log(bootstrapScripts);
+
     const { pipe, abort } = renderToPipeableStream(
-      extractor.collectChunks(
-        <Client location={location} response={response} />,
-      ),
+      <Client location={location} response={response} />,
       {
+        bootstrapScripts,
         onCompleteShell() {
           if (handledError) {
             abort();
@@ -113,11 +110,7 @@ export const pipeRenderToResponse = (
 
           const collector = {};
           const documentString = `${doctype}\n${renderToStaticMarkup(
-            <RenderProvider
-              extractor={extractor}
-              collector={collector}
-              html=">>>><<<<"
-            >
+            <RenderProvider collector={collector} html=">>>><<<<">
               <Document />
             </RenderProvider>,
           )}`;
@@ -151,48 +144,6 @@ export const pipeRenderToResponse = (
       },
     );
   });
-};
-
-export const renderToString = ({
-  location,
-  logger = defaultLogger,
-  context: response = {},
-}) => {
-  if (!isLoaded()) {
-    setup();
-  }
-
-  const extractor = new ChunkExtractor({
-    publicPath: publicRoute,
-    statsFile: statsPath,
-  });
-
-  response.statusCode = null;
-  response.statusMessage = null;
-  response.headers = {};
-
-  const html = reactRenderToString(
-    extractor.collectChunks(<Client location={location} response={response} />),
-  );
-
-  const collector = {};
-  const output = `${doctype}\n${renderToStaticMarkup(
-    <RenderProvider extractor={extractor} collector={collector} html={html}>
-      <Document />
-    </RenderProvider>,
-  )}`;
-
-  if (!response.statusCode) {
-    response.statusCode = response.headers.Location ? 308 : 200;
-  }
-
-  if (!response.headers["content-type"]) {
-    response.headers["content-type"] = "text/html";
-  }
-
-  validateCollector(collector, logger);
-
-  return output;
 };
 
 export { publicPath, statsPath };
