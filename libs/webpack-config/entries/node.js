@@ -1,4 +1,5 @@
 import React from "react";
+import { PassThrough } from "stream";
 import {
   renderToStaticMarkup,
   renderToPipeableStream,
@@ -137,13 +138,15 @@ export const pipeRenderToResponse = (
           [toAppendFirst, toAppendLast] = documentString.split(">>>><<<<");
 
           res.write(toAppendFirst);
-          return pipe(res);
-        },
-        onCompleteAll() {
-          if (toAppendLast) {
+
+          const pass = new PassThrough();
+          pass.on("data", (chunk) => res.write(chunk));
+          pass.on("close", () => {
             res.write(toAppendLast);
+            res.end();
             resolve();
-          }
+          });
+          return pipe(pass);
         },
         onError(error) {
           handledError = error;
