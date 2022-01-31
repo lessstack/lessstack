@@ -10,7 +10,7 @@ const createWebMiddleware = ({ publicRoute = "/assets", client, logger }) => {
   middleware.use(publicRoute, express.static(client.publicPath));
   middleware.get("*", async (req, res, next) => {
     try {
-      await client.pipeRenderToResponse(res, {
+      await client.render(res, {
         location: req.originalUrl,
         logger,
       });
