@@ -1,7 +1,7 @@
 import React, { createContext } from "react";
 import PropTypes from "prop-types";
 
-export const Context = createContext();
+export const RenderContext = createContext();
 
 const filterHmrElements = (elements) =>
   elements.filter(
@@ -9,8 +9,8 @@ const filterHmrElements = (elements) =>
       !(element.props.src || element.props.href)?.match(/-wps-hmr\.[^.\\/]+$/),
   );
 
-const Provider = ({ children, html, extractor, collector, rootId }) => (
-  <Context.Provider
+const RenderProvider = ({ children, html, extractor, collector, rootId }) => (
+  <RenderContext.Provider
     value={{
       scripts: [
         <script
@@ -32,14 +32,10 @@ const Provider = ({ children, html, extractor, collector, rootId }) => (
     }}
   >
     {children}
-  </Context.Provider>
+  </RenderContext.Provider>
 );
 
-Provider.defaultProps = {
-  rootId: "root",
-};
-
-Provider.propTypes = {
+RenderProvider.propTypes = {
   children: PropTypes.node.isRequired,
   html: PropTypes.string.isRequired,
   extractor: PropTypes.shape({
@@ -48,7 +44,7 @@ Provider.propTypes = {
     getStyleElements: PropTypes.func.isRequired,
   }).isRequired,
   collector: PropTypes.shape({}).isRequired,
-  rootId: PropTypes.string,
+  rootId: PropTypes.string.isRequired,
 };
 
-export default Provider;
+export default RenderProvider;

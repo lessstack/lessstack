@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { Context } from "./RenderProvider.js";
+import { RenderContext } from "./RenderProvider.js";
 
 const Root = ({ as: Component, ...props }) => {
-  const { html, collector, rootId } = useContext(Context);
+  const { html, collector, rootId } = useContext(RenderContext);
   collector.rootAdded = true;
 
   return (

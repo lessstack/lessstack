@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { Context } from "./RenderProvider.js";
+import { RenderContext } from "./RenderProvider.js";
 
 const ExtractedStyles = () => {
-  const { styles, collector } = useContext(Context);
+  const { styles, collector } = useContext(RenderContext);
   collector.stylesAdded = true;
   return styles;
 };

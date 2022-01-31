@@ -5,6 +5,7 @@ import { ChunkExtractor } from "@loadable/server";
 
 import RenderProvider from "../components/RenderProvider.js";
 import DefaultDocument from "../components/Document.js";
+import ConfigProvider from "../components/ConfigProvider.js";
 
 // __WITB__ is defined by webpack
 // eslint-disable-next-line no-undef
@@ -34,8 +35,6 @@ const validateCollector = (collector, logger) => {
 let clientIsLoaded = false;
 let publicRoute;
 let Client;
-let doctype;
-let Document;
 
 export const setup = (options) => {
   if (clientIsLoaded) {
@@ -54,12 +53,8 @@ export const setup = (options) => {
     __webpack_public_path__ = publicRoute;
   }
 
-  ({
-    default: Client,
-    doctype = "<!DOCTYPE html>",
-    Document = DefaultDocument,
-    // eslint-disable-next-line import/no-unresolved, global-require
-  } = require("@witb/webpack-config/alias/client"));
+  // eslint-disable-next-line import/no-unresolved, global-require
+  ({ default: Client } = require("@witb/webpack-config/alias/client"));
 };
 
 export const isLoaded = () => clientIsLoaded;
@@ -80,6 +75,11 @@ export const render = (res, { location, logger = defaultLogger }) => {
       statusMessage: null,
       headers: {},
     };
+    const config = {
+      doctype: "<!DOCTYPE html>",
+      document: DefaultDocument,
+      rootId: "root",
+    };
     let handledError = false;
     let toAppendFirst = "";
     let toAppendLast = "";
@@ -87,7 +87,9 @@ export const render = (res, { location, logger = defaultLogger }) => {
     const { pipe, abort } = renderToPipeableStream(
       extractor.collectChunks(
         <StrictMode>
-          <Client location={location} response={response} />,
+          <ConfigProvider config={config}>
+            <Client location={location} response={response} />,
+          </ConfigProvider>
         </StrictMode>,
       ),
       {
@@ -107,10 +109,12 @@ export const render = (res, { location, logger = defaultLogger }) => {
             return resolve();
           }
 
+          const { document: Document } = config;
           const collector = {};
           const documentString = renderToStaticMarkup(
             <StrictMode>
               <RenderProvider
+                rootId={config.rootId}
                 extractor={extractor}
                 collector={collector}
                 html=">>>><<<<"
@@ -134,7 +138,7 @@ export const render = (res, { location, logger = defaultLogger }) => {
 
           [toAppendFirst, toAppendLast] = documentString.split(">>>><<<<");
 
-          res.write(doctype);
+          res.write(config.doctype);
           res.write(toAppendFirst);
 
           const pass = new PassThrough();

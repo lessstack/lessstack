@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { Context } from "./RenderProvider.js";
+import { RenderContext } from "./RenderProvider.js";
 
 const ExtractedScripts = () => {
-  const { scripts, collector } = useContext(Context);
+  const { scripts, collector } = useContext(RenderContext);
   collector.scriptsAdded = true;
   return scripts;
 };
