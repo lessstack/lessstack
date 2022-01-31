@@ -1,4 +1,4 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import { PassThrough } from "stream";
 import { renderToStaticMarkup, renderToPipeableStream } from "react-dom/server";
 import { ChunkExtractor } from "@loadable/server";
@@ -86,7 +86,9 @@ export const render = (res, { location, logger = defaultLogger }) => {
 
     const { pipe, abort } = renderToPipeableStream(
       extractor.collectChunks(
-        <Client location={location} response={response} />,
+        <StrictMode>
+          <Client location={location} response={response} />,
+        </StrictMode>,
       ),
       {
         onCompleteShell() {
@@ -107,13 +109,15 @@ export const render = (res, { location, logger = defaultLogger }) => {
 
           const collector = {};
           const documentString = renderToStaticMarkup(
-            <RenderProvider
-              extractor={extractor}
-              collector={collector}
-              html=">>>><<<<"
-            >
-              <Document />
-            </RenderProvider>,
+            <StrictMode>
+              <RenderProvider
+                extractor={extractor}
+                collector={collector}
+                html=">>>><<<<"
+              >
+                <Document />
+              </RenderProvider>
+            </StrictMode>,
           );
 
           try {

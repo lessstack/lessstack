@@ -1,5 +1,5 @@
 /* eslint-env browser */
-import React from "react";
+import React, { StrictMode } from "react";
 import { hydrateRoot } from "react-dom";
 import { loadableReady } from "@loadable/component";
 import "./browser.entries";
@@ -8,5 +8,10 @@ import "./browser.entries";
 import Client from "@witb/webpack-config/alias/client";
 
 loadableReady(() => {
-  hydrateRoot(document.getElementById("app"), <Client />);
+  hydrateRoot(
+    document.getElementById(globalThis.WITB_ENVIRONMENT_VARS.rootId),
+    <StrictMode>
+      <Client />
+    </StrictMode>,
+  );
 });
