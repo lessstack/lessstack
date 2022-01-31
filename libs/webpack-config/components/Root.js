@@ -3,12 +3,16 @@ import PropTypes from "prop-types";
 import { Context } from "./RenderProvider.js";
 
 const Root = ({ as: Component, ...props }) => {
-  const { html, collector } = useContext(Context);
+  const { html, collector, rootId } = useContext(Context);
   collector.rootAdded = true;
 
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    <Component {...props} id="app" dangerouslySetInnerHTML={{ __html: html }} />
+    <Component
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...props}
+      id={rootId}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
   );
 };
 

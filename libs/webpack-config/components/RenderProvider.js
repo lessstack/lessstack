@@ -9,7 +9,7 @@ const filterHmrElements = (elements) =>
       !(element.props.src || element.props.href)?.match(/-wps-hmr\.[^.\\/]+$/),
   );
 
-const Provider = ({ children, html, extractor, collector }) => (
+const Provider = ({ children, html, extractor, collector, rootId }) => (
   <Context.Provider
     value={{
       scripts: [
@@ -17,6 +17,7 @@ const Provider = ({ children, html, extractor, collector }) => (
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: `WITB_ENVIRONMENT_VARS = ${JSON.stringify({
+              rootId,
               // eslint-disable-next-line no-undef, camelcase
               webpackPublickPath: __webpack_public_path__,
             })};`,
@@ -25,6 +26,7 @@ const Provider = ({ children, html, extractor, collector }) => (
       ].concat(filterHmrElements(extractor.getScriptElements())),
       links: filterHmrElements(extractor.getLinkElements()),
       styles: filterHmrElements(extractor.getStyleElements()),
+      rootId,
       html,
       collector,
     }}
@@ -32,6 +34,10 @@ const Provider = ({ children, html, extractor, collector }) => (
     {children}
   </Context.Provider>
 );
+
+Provider.defaultProps = {
+  rootId: "root",
+};
 
 Provider.propTypes = {
   children: PropTypes.node.isRequired,
@@ -42,6 +48,7 @@ Provider.propTypes = {
     getStyleElements: PropTypes.func.isRequired,
   }).isRequired,
   collector: PropTypes.shape({}).isRequired,
+  rootId: PropTypes.string,
 };
 
 export default Provider;
