@@ -6,7 +6,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "babel src --out-dir build",
     "lint": "eslint ."
   },
   "dependencies": {
