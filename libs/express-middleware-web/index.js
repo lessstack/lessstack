@@ -1,6 +1,11 @@
 import express, { Router } from "express";
 
-const createWebMiddleware = ({ publicRoute = "/assets", client, logger }) => {
+const createWebMiddleware = ({
+  publicRoute = "/assets",
+  client,
+  logger,
+  getProps,
+}) => {
   const middleware = new Router();
 
   if (!client.isLoaded()) {
@@ -11,7 +16,7 @@ const createWebMiddleware = ({ publicRoute = "/assets", client, logger }) => {
   middleware.get("*", async (req, res, next) => {
     try {
       await client.render(res, {
-        location: req.originalUrl,
+        props: getProps?.(req, res) || {},
         logger,
       });
     } catch (e) {

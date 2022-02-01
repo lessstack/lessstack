@@ -59,7 +59,7 @@ export const setup = (options) => {
 
 export const isLoaded = () => clientIsLoaded;
 
-export const render = (res, { location, logger = defaultLogger }) => {
+export const render = (res, { props, logger = defaultLogger }) => {
   if (!isLoaded()) {
     setup();
   }
@@ -88,7 +88,8 @@ export const render = (res, { location, logger = defaultLogger }) => {
       extractor.collectChunks(
         <StrictMode>
           <ConfigProvider config={config}>
-            <Client location={location} response={response} />,
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+            <Client {...props} response={response} />,
           </ConfigProvider>
         </StrictMode>,
       ),
