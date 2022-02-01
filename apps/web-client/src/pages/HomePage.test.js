@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "../jest";
+import { render } from "../entries/jest";
 import HomePage from "./HomePage";
 
 it("renders", () => {

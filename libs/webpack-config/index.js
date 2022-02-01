@@ -6,21 +6,22 @@ import WebpackMiniCssExtractPlugin from "mini-css-extract-plugin";
 import WebpackReactRefreshPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import ImageMinimizerPlugin from "image-minimizer-webpack-plugin";
 
-export const createConfig = ({
+export const createWebpackConfig = ({
   // "browser" | "node" = "browser"
   target = "browser",
   // "development" | "production" = "development"
   mode = "development",
   // false | true = false
   watch = false,
+  entry,
+  buildPath,
   env,
 }) => {
   const isBrowser = target === "browser";
   const isDevelopment = mode === "development";
   const isHot = watch && isBrowser;
 
-  const buildPath = path.join(process.cwd(), "build");
-  const outputPath = isBrowser ? path.join(buildPath, target) : buildPath;
+  const outputPath = isBrowser ? path.join(buildPath, "browser") : buildPath;
   const publicPath = path.join(buildPath, "browser");
   const statsPath = path.join(buildPath, `${target}.stats.json`);
   const babelOptions = {
@@ -48,10 +49,7 @@ export const createConfig = ({
 
     resolve: {
       alias: {
-        "@witb/webpack-config/alias/client": path.join(
-          process.cwd(),
-          `src/${target}.js`,
-        ),
+        "@witb/webpack-config/alias/client": entry,
       },
     },
 
@@ -170,10 +168,37 @@ export const createConfig = ({
   };
 };
 
-export const createConfigList = ({ env, mode, watch }) => [
-  createConfig({ target: "browser", env, mode, watch }),
-  createConfig({ target: "node", env, mode, watch }),
-];
+export const createConfig = (options) => {
+  const cwd = process.cwd();
+  const srcPath = path.resolve(cwd, options?.srcPath ?? "src");
+  const buildPath = path.resolve(cwd, options?.buildPath ?? "build");
+  const nodeEntry = path.resolve(
+    srcPath,
+    options?.entries?.node ?? `entries/node`,
+  );
+  const browserEntry = path.resolve(
+    srcPath,
+    options?.entries?.node ?? `entries/browser`,
+  );
 
-export default (_, { env, mode, watch }) =>
-  createConfigList({ env, mode, watch });
+  return (_, { env, mode, watch }) => [
+    createWebpackConfig({
+      target: "browser",
+      entry: browserEntry,
+      buildPath,
+      env,
+      mode,
+      watch,
+    }),
+    createWebpackConfig({
+      target: "node",
+      entry: nodeEntry,
+      buildPath,
+      env,
+      mode,
+      watch,
+    }),
+  ];
+};
+
+export default createConfig();

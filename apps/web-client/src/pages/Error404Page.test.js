@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "../jest";
+import { render } from "../entries/jest";
 import Error404Page from "./Error404Page";
 
 it("renders", () => {

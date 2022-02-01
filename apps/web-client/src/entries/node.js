@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { StaticRouter } from "react-router-dom/server";
 import { ResponsePropType } from "@witb/webpack-config/utils";
 
-import App from "./App";
+import App from "../App";
 
 const NodeEntry = ({ location, response }) => (
   <StaticRouter location={location}>
