@@ -12,7 +12,7 @@ const config =
   NODE_ENV === "development"
     ? {
         ...commonConfig,
-        watch: ["./src", client.statsPath],
+        watch: ["./src", client.nodeStatsPath],
         maxInstances: 3,
         minInstances: 1,
       }

@@ -9,7 +9,7 @@ import ConfigProvider from "../components/ConfigProvider.js";
 
 // __WITB__ is defined by webpack
 // eslint-disable-next-line no-undef
-const { publicPath, statsPath } = __WITB__;
+const { publicPath, browserStatsPath, nodeStatsPath } = __WITB__;
 
 const defaultLogger =
   (process.env.NODE_ENV ?? "development") === "development" ? console : null;
@@ -67,7 +67,7 @@ export const render = (res, { location, logger = defaultLogger }) => {
   return new Promise((resolve, reject) => {
     const extractor = new ChunkExtractor({
       publicPath: publicRoute,
-      statsFile: statsPath,
+      statsFile: browserStatsPath,
     });
 
     const response = {
@@ -158,4 +158,4 @@ export const render = (res, { location, logger = defaultLogger }) => {
   });
 };
 
-export { publicPath, statsPath };
+export { publicPath, browserStatsPath, nodeStatsPath };

@@ -149,7 +149,8 @@ export const createConfig = ({
         new webpack.DefinePlugin({
           __WITB__: JSON.stringify({
             publicPath,
-            statsPath: path.join(buildPath, `browser.stats.json`),
+            browserStatsPath: path.join(buildPath, `browser.stats.json`),
+            nodeStatsPath: path.join(buildPath, `node.stats.json`),
           }),
         }),
       new WebpackLoadablePlugin({

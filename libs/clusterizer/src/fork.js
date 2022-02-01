@@ -44,7 +44,7 @@ const createFork = () => {
       case STATES.STARTED:
       case STATES.READY: {
         setState(STATES.STOPPING, context);
-        worker.process.kill(settings.killSignal);
+        worker.kill(settings.killSignal);
         break;
       }
       default:
