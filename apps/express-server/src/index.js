@@ -1,14 +1,13 @@
 import express from "express";
-import client from "@witb/web-client";
 import createWebMiddleware from "@witb/express-middleware-web";
 
 const app = express();
-
 app.use(
   createWebMiddleware({
-    client,
+    clientPath: "@witb/web-client",
     getProps: (req) => ({
-      location: req.originalUrl,
+      url: req.url,
+      baseUrl: req.baseUrl,
     }),
   }),
 );
