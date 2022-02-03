@@ -89,7 +89,7 @@ export const render = (res, { props, logger = defaultLogger }) => {
         <StrictMode>
           <ConfigProvider config={config}>
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            <Client {...props} response={response} />,
+            <Client {...props} response={response} />
           </ConfigProvider>
         </StrictMode>,
       ),
