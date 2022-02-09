@@ -27,7 +27,12 @@ try {
       ".cjs",
       ".mjs",
       ".json",
-    ]).then((result) => result.default),
+    ]).then((result) => {
+      if (typeof result.default === "function") {
+        return result.default();
+      }
+      return result.default;
+    }),
   );
 } catch (e) {
   configList = [{}];
