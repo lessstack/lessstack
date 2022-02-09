@@ -21,6 +21,7 @@ const config =
         maxInstances: 1,
         minInstances: 0,
         maxFailures: 0,
+        logs: false,
       };
 
 export default config;

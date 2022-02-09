@@ -56,13 +56,13 @@ const clusterizerList = settingsList.map((settings) => {
   const pool = createPool(process);
   let watcher;
 
-  createPoolLogger(pool);
+  createPoolLogger(pool, settings);
   pool.start(settings);
   if (settings.watch.length) {
     watcher = createWatcher(() => {
       pool.reload();
     }, settings);
-    createWatcherLogger(pool, watcher);
+    createWatcherLogger(pool, watcher, settings);
     watcher.start();
   }
 

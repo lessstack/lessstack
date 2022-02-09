@@ -138,68 +138,102 @@ const getInstancePrefix = (pool, worker) =>
 const getWatcherPrefix = (pool) =>
   `${getTimePrefix()}\x1b[36m${pool.getName()}\x1b[0m:\x1b[34mwatcher\x1b[0m   `;
 
-export const createInstanceLogger = (pool, instance, target = process) => {
+export const createInstanceLogger = (
+  pool,
+  instance,
+  settings,
+  target = process,
+) => {
   let instanceCanal;
+
   instance.prepend("state", ({ state, worker }) => {
     if (state === "STARTED") {
       instanceCanal = createCanal(target);
       maxPidLength = Math.max(maxPidLength, `${worker.process.pid}`.length);
     }
-    target.stdout.write(getInstancePrefix(pool, worker));
-    target.stdout.write(`${INSTANCE_STATE_COLORS[state]}${state}\x1b[0m\n`);
+    if (settings.logs.workerState) {
+      target.stdout.write(getInstancePrefix(pool, worker));
+      target.stdout.write(`${INSTANCE_STATE_COLORS[state]}${state}\x1b[0m\n`);
+    }
   });
 
-  instance.on("stdout", ({ data, worker }) => {
-    `${data}`.split(/\n/g).forEach((line, key, lines) => {
-      if (line || key < lines.length - 1) {
-        target.stdout.write(getInstancePrefix(pool, worker));
-        instanceCanal.stdout(line);
-      }
-      if (key < lines.length - 1) {
-        instanceCanal.stdout("\n");
-      }
+  if (settings.logs.workerOut) {
+    instance.on("stdout", ({ data, worker }) => {
+      `${data}`.split(/\n/g).forEach((line, key, lines) => {
+        if (line || key < lines.length - 1) {
+          if (settings.logs.prefixWorkerOut) {
+            target.stdout.write(getInstancePrefix(pool, worker));
+          }
+          instanceCanal.stdout(line);
+        }
+        if (key < lines.length - 1) {
+          instanceCanal.stdout("\n");
+        }
+      });
     });
-  });
-  instance.on("stderr", ({ data, worker }) => {
-    `${data}`.split(/\n/g).forEach((line, key, lines) => {
-      if (line || key < lines.length - 1) {
-        target.stdout.write(getInstancePrefix(pool, worker));
-        instanceCanal.stderr(line);
-      }
-      if (key < lines.length - 1) {
-        instanceCanal.stderr("\n");
-      }
+  }
+
+  if (settings.logs.workerErr) {
+    instance.on("stderr", ({ data, worker }) => {
+      `${data}`.split(/\n/g).forEach((line, key, lines) => {
+        if (line || key < lines.length - 1) {
+          if (settings.logs.prefixWorkerErr) {
+            target.stdout.write(getInstancePrefix(pool, worker));
+          }
+          instanceCanal.stderr(line);
+        }
+        if (key < lines.length - 1) {
+          instanceCanal.stderr("\n");
+        }
+      });
     });
-  });
+  }
 };
 
-export const createPoolLogger = (pool, target = process) => {
-  pool.on("state", ({ state }) => {
-    target.stdout.write(getPoolPrefix(pool, maxPidLength));
-    target.stdout.write(
-      `\x1b[7m${POOL_STATE_COLORS[state]} ${state} \x1b[0m\n`,
+export const createPoolLogger = (pool, settings, target = process) => {
+  if (settings.logs.poolState) {
+    pool.on("state", ({ state }) => {
+      target.stdout.write(getPoolPrefix(pool, maxPidLength));
+      target.stdout.write(
+        `\x1b[7m${POOL_STATE_COLORS[state]} ${state} \x1b[0m\n`,
+      );
+    });
+  }
+
+  if (
+    settings.logs.workerState ||
+    settings.logs.workerOut ||
+    settings.logs.workerErr
+  ) {
+    pool.on("instance", ({ instance }) =>
+      createInstanceLogger(pool, instance, settings, target),
     );
-  });
-
-  pool.on("instance", ({ instance }) =>
-    createInstanceLogger(pool, instance, target),
-  );
+  }
 };
 
-export const createWatcherLogger = (pool, watcher, target = process) => {
-  watcher.on("state", ({ state }) => {
-    target.stdout.write(getWatcherPrefix(pool, maxPidLength));
-    target.stdout.write(`${WATCHER_STATE_COLORS[state]}${state}\x1b[0m\n`);
-  });
-  watcher.on("update", ({ updates }) => {
-    const prefix = getWatcherPrefix(pool, maxPidLength);
-
-    target.stdout.write(prefix);
-    target.stdout.write(`reloaded by:\n`);
-
-    updates.forEach((path) => {
-      target.stdout.write(prefix);
-      target.stdout.write(`- ${path}\n`);
+export const createWatcherLogger = (
+  pool,
+  watcher,
+  settings,
+  target = process,
+) => {
+  if (settings.logs.watcherState) {
+    watcher.on("state", ({ state }) => {
+      target.stdout.write(getWatcherPrefix(pool, maxPidLength));
+      target.stdout.write(`${WATCHER_STATE_COLORS[state]}${state}\x1b[0m\n`);
     });
-  });
+  }
+  if (settings.logs.watcherUpdate) {
+    watcher.on("update", ({ updates }) => {
+      const prefix = getWatcherPrefix(pool, maxPidLength);
+
+      target.stdout.write(prefix);
+      target.stdout.write(`reloaded by:\n`);
+
+      updates.forEach((path) => {
+        target.stdout.write(prefix);
+        target.stdout.write(`- ${path}\n`);
+      });
+    });
+  }
 };
