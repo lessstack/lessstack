@@ -28,6 +28,11 @@ const createPool = () => {
     emitter.emit("state", { state, data });
   };
 
+  const isStoppable = () =>
+    [STATES.STARTED, STATES.READY, STATES.RELOADING].includes(state);
+
+  const isStartable = () => [STATES.FAILED, STATES.STOPPED].includes(state);
+
   const updateInstances = () => {
     if (!settings.maxFailures || failures <= settings.maxFailures) {
       const readyInstances = instances.filter(
@@ -147,78 +152,69 @@ const createPool = () => {
   };
 
   const start = async (newSettings) => {
-    switch (state) {
-      case STATES.FAILED:
-      case STATES.STOPPED: {
-        failures = 0;
-        settings = newSettings;
-        setState(STATES.STARTED, newSettings);
+    if (isStartable()) {
+      failures = 0;
+      settings = newSettings;
+      setState(STATES.STARTED, newSettings);
 
-        const output = new Promise((resolve) => {
-          const removeListener = emitter.on("state", ({ state: newState }) => {
-            removeListener();
-            switch (newState) {
-              case STATES.READY: {
-                resolve(true);
-                break;
-              }
-              default: {
-                resolve(false);
-              }
+      const output = new Promise((resolve) => {
+        const removeListener = emitter.on("state", ({ state: newState }) => {
+          removeListener();
+          switch (newState) {
+            case STATES.READY: {
+              resolve(true);
+              break;
             }
-          });
+            default: {
+              resolve(false);
+            }
+          }
         });
+      });
 
-        for (let i = 0; i < settings.maxInstances; i += 1) {
-          startNewInstance();
-        }
+      for (let i = 0; i < settings.maxInstances; i += 1) {
+        startNewInstance();
+      }
 
-        return output;
-      }
-      default: {
-        throw new Error(`Trying to start pool in "${state}" state`);
-      }
+      return output;
     }
+
+    throw new Error(`Trying to start pool in "${state}" state`);
   };
 
   const stop = async () => {
-    switch (state) {
-      case STATES.STARTED:
-      case STATES.READY:
-      case STATES.RELOADING: {
-        setState(STATES.STOPPING);
-        const output = new Promise((resolve) => {
-          const removeListener = emitter.on("state", ({ state: newState }) => {
-            removeListener();
-            switch (newState) {
-              case STATES.STOPPED: {
-                resolve(true);
-                break;
-              }
-              default: {
-                resolve(false);
-              }
+    if (isStoppable()) {
+      setState(STATES.STOPPING);
+      const output = new Promise((resolve) => {
+        const removeListener = emitter.on("state", ({ state: newState }) => {
+          removeListener();
+          switch (newState) {
+            case STATES.STOPPED: {
+              resolve(true);
+              break;
             }
-          });
-        });
-
-        instances.forEach((instance) => {
-          switch (instance.getState()) {
-            case FORK_STATES.STARTED:
-            case FORK_STATES.READY:
-              instance.stop();
-              break;
-            default:
-              break;
+            default: {
+              resolve(false);
+            }
           }
         });
+      });
 
-        return output;
-      }
-      default: {
-        throw new Error(`Trying to stop pool in "${state}" state`);
-      }
+      instances.forEach((instance) => {
+        switch (instance.getState()) {
+          case FORK_STATES.STARTED:
+          case FORK_STATES.READY:
+            instance.stop();
+            break;
+          default:
+            break;
+        }
+      });
+
+      return output;
     }
+
+    throw new Error(`Trying to stop pool in "${state}" state`);
   };
 
   const reload = (newSettings) => {
@@ -272,6 +268,8 @@ const createPool = () => {
     stop,
     reload,
     getName,
+    isStartable,
+    isStoppable,
     ...emitter,
   };
 };

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { createRequire } from "module";
+import readline from "readline";
 import path from "path";
 import { createPoolLogger, createWatcherLogger } from "./src/logger.js";
 import createPool from "./src/pool.js";
@@ -47,6 +48,7 @@ const settingsList = configList.map((config, key) => ({
 if ((process.env.NODE_ENV ?? "development") === "development") {
   // eslint-disable-next-line no-console
   console.log("Starting clusterizer with settings:", settingsList);
+  console.table({ shortcuts: { reload: "ctrl-r", stop: "ctrl-c" } });
 }
 
 // Create and start clusterizers
@@ -70,27 +72,34 @@ const clusterizerList = settingsList.map((settings) => {
 const stop = async () => {
   await Promise.all(
     clusterizerList.map(({ pool, watcher }) =>
-      Promise.all([pool.stop(), watcher && watcher.stop()]),
+      Promise.all([
+        pool.isStoppable() && pool.stop(),
+        watcher && watcher.stop(),
+      ]),
     ),
   );
 
   process.exit(0);
 };
 
+const reload = () => {
+  clusterizerList.forEach((clusterizer) => {
+    clusterizer.pool.reload();
+  });
+};
+
 // Reload clusterizers pool using stdin data
+readline.emitKeypressEvents(process.stdin);
+process.stdin.setRawMode(true);
 process.stdin.resume();
 process.stdin.setEncoding("utf-8");
-process.stdin.on("data", (input) => {
-  const data = input.trim();
-  clusterizerList.forEach((clusterizer) => {
-    if (data === clusterizer.settings.reloadStdinData) {
-      clusterizer.pool.reload();
-    }
-  });
+process.stdin.on("keypress", (data, { name, ctrl }) => {
+  if (ctrl && name === "c") {
+    stop();
+  } else if (ctrl && name === "r") {
+    reload();
+  }
 });
 
 // Stop clusterizers on SIGINT
-process.on("SIGINT", async () => {
-  process.stdout.write("\n");
-  await stop();
-});
+process.on("SIGINT", stop);

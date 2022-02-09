@@ -2,7 +2,6 @@ import { cpus } from "os";
 
 const DEFAULT_KILL_SIGNAL = "SIGINT";
 const DEFAULT_MAX_INSTANCES = cpus().length;
-const DEFAULT_RELOAD_STDIN_DATA = "reload";
 const DEFAULT_WATCH_DELAY = 200;
 const DEFAULT_WATCH_MAX_DELAY = 500;
 const DEFAULT_WATCH_OPTIONS = { ignoreInitial: true };
@@ -60,22 +59,6 @@ const createSettings = (options) => {
         ...(options.watchOptions || {}),
       }
     : null;
-
-  // CLI related settings
-  switch (typeof options.reloadStdinData) {
-    case "string":
-    case "number":
-      config.reloadStdinData = `${options.reloadStdinData}`;
-      break;
-    case "boolean":
-      config.reloadStdinData = options.reloadStdinData
-        ? DEFAULT_RELOAD_STDIN_DATA
-        : options.reloadStdinData;
-      break;
-    default:
-      config.reloadStdinData = DEFAULT_RELOAD_STDIN_DATA;
-      break;
-  }
 
   return config;
 };
