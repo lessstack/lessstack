@@ -1,4 +1,5 @@
 import chokidar from "chokidar";
+import createEventEmitter from "./eventEmitter.js";
 
 export const STATES = {
   STOPPED: "STOPPED",
@@ -22,6 +23,7 @@ const defer = (cb) => {
 };
 
 const createWatcher = (callback, settings) => {
+  const emitter = createEventEmitter();
   let state = STATES.STOPPED;
   let watcher;
   let deferredStop;
@@ -31,18 +33,11 @@ const createWatcher = (callback, settings) => {
 
   const setState = (newState) => {
     state = newState;
-    settings.logger?.info({
-      category: "watcher",
-      state,
-    });
+    emitter.emit("state", { state });
   };
 
   const reload = () => {
-    settings.logger?.info({
-      category: "watcher",
-      state,
-      data: { updates: pendingPaths },
-    });
+    emitter.emit("update", { updates: pendingPaths });
     callback(pendingPaths);
     clearTimeout(pendingWatchUpdate);
     clearTimeout(pendingMaxWatchUpdate);
@@ -98,6 +93,7 @@ const createWatcher = (callback, settings) => {
       });
       return deferredStop.promise;
     },
+    ...emitter,
   };
 };
 

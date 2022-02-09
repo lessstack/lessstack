@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { createRequire } from "module";
 import path from "path";
+import { createPoolLogger, createWatcherLogger } from "./src/logger.js";
 import createPool from "./src/pool.js";
 import createSettings from "./src/settings.js";
 import createWatcher from "./src/watcher.js";
@@ -36,7 +37,7 @@ const execFallback = createRequire(process.cwd()).resolve(process.cwd());
 
 // create settings from config
 const settingsList = configList.map((config, key) => ({
-  name: `Pool ${key + 1}`,
+  name: `pool-${key + 1}`,
   ...createSettings({
     exec: execFallback,
     ...config,
@@ -45,24 +46,36 @@ const settingsList = configList.map((config, key) => ({
 
 if ((process.env.NODE_ENV ?? "development") === "development") {
   // eslint-disable-next-line no-console
-  console.log("Starting clusterizer with settings:", settingsList, "\n");
+  console.log("Starting clusterizer with settings:", settingsList);
 }
 
 // Create and start clusterizers
 const clusterizerList = settingsList.map((settings) => {
-  const pool = createPool();
+  const pool = createPool(process);
   let watcher;
 
+  createPoolLogger(pool);
   pool.start(settings);
   if (settings.watch.length) {
     watcher = createWatcher(() => {
       pool.reload();
     }, settings);
+    createWatcherLogger(pool, watcher);
     watcher.start();
   }
 
   return { pool, watcher, settings };
 });
+
+const stop = async () => {
+  await Promise.all(
+    clusterizerList.map(({ pool, watcher }) =>
+      Promise.all([pool.stop(), watcher && watcher.stop()]),
+    ),
+  );
+
+  process.exit(0);
+};
 
 // Reload clusterizers pool using stdin data
 process.stdin.resume();
@@ -78,11 +91,6 @@ process.stdin.on("data", (input) => {
 
 // Stop clusterizers on SIGINT
 process.on("SIGINT", async () => {
-  await Promise.all(
-    clusterizerList.map(({ pool, watcher }) =>
-      Promise.all([pool.stop(), watcher && watcher.stop()]),
-    ),
-  );
-
-  process.exit(0);
+  process.stdout.write("\n");
+  await stop();
 });

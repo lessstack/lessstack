@@ -1,5 +1,4 @@
 import { cpus } from "os";
-import defaultLogger from "./logger.js";
 
 const DEFAULT_KILL_SIGNAL = "SIGINT";
 const DEFAULT_MAX_INSTANCES = cpus().length;
@@ -61,13 +60,6 @@ const createSettings = (options) => {
         ...(options.watchOptions || {}),
       }
     : null;
-
-  // LOGGER related settings
-  config.logger =
-    options.logger ||
-    ((process.env.NODE_ENV ?? "development") === "development"
-      ? defaultLogger
-      : null);
 
   // CLI related settings
   switch (typeof options.reloadStdinData) {

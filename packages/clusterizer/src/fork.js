@@ -1,4 +1,5 @@
 import cluster from "cluster";
+import createEventEmitter from "./eventEmitter.js";
 
 export const STATES = {
   STOPPED: "STOPPED",
@@ -9,20 +10,14 @@ export const STATES = {
 };
 
 const createFork = () => {
-  const listeners = [];
   let state = STATES.STOPPED;
   let worker = null;
   let settings = {};
+  const emitter = createEventEmitter();
 
   const setState = (newState, data) => {
     state = newState;
-    settings.logger?.info({
-      category: "fork",
-      state,
-      worker,
-      data,
-    });
-    listeners.forEach((listener) => listener(newState, data));
+    emitter.emit("state", { worker, state, data });
   };
 
   const getState = () => state;
@@ -39,11 +34,11 @@ const createFork = () => {
     }
   };
 
-  const stop = (context) => {
+  const stop = () => {
     switch (state) {
       case STATES.STARTED:
       case STATES.READY: {
-        setState(STATES.STOPPING, context);
+        setState(STATES.STOPPING);
         worker.kill(settings.killSignal);
         break;
       }
@@ -52,7 +47,7 @@ const createFork = () => {
     }
   };
 
-  const start = (newSettings, context) => {
+  const start = (newSettings) => {
     settings = newSettings;
     switch (state) {
       case STATES.STOPPED:
@@ -62,13 +57,21 @@ const createFork = () => {
           args: settings.args,
           exec: settings.exec,
           execArgv: settings.execArgv,
+          silent: true,
         });
         worker = cluster.fork(settings.env);
         setup(previousSettings);
-        setState(STATES.STARTED, context);
+        setState(STATES.STARTED);
 
         worker.on("exit", (code, signal) => {
           setState(code ? STATES.FAILED : STATES.STOPPED, { code, signal });
+        });
+
+        worker.process.stdout.on("data", (data) => {
+          emitter.emit("stdout", { worker, data });
+        });
+        worker.process.stderr.on("data", (data) => {
+          emitter.emit("stderr", { worker, data });
         });
 
         if (settings.readyMessage) {
@@ -97,25 +100,11 @@ const createFork = () => {
     }
   };
 
-  const listen = (callback) => {
-    if (listeners.includes(callback)) {
-      throw new Error("Trying to add the same listener multiple times");
-    }
-    listeners.push(callback);
-
-    return () => {
-      if (!listeners.includes(callback)) {
-        throw new Error("Trying to remove an unknown listener");
-      }
-      listeners.splice(listeners.indexOf(callback), 1);
-    };
-  };
-
   return {
     stop,
     start,
-    listen,
     getState,
+    ...emitter,
   };
 };
 

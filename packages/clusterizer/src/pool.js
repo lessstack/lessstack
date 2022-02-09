@@ -1,3 +1,4 @@
+import createEventEmitter from "./eventEmitter.js";
 import createFork, { STATES as FORK_STATES } from "./fork.js";
 
 export const STATES = {
@@ -5,6 +6,7 @@ export const STATES = {
   STARTED: "STARTED",
   STOPPING: "STOPPING",
   RELOADING: "RELOADING",
+  FAILED: "FAILED",
   READY: "READY",
 };
 
@@ -16,40 +18,20 @@ const removeArrayItem = (array, item) => {
 const createPool = () => {
   let instances = [];
   let obsoleteInstances = [];
-  let listeners = [];
   let state = STATES.STOPPED;
   let settings = {};
   let failures = 0;
-
-  const listen = (callback) => {
-    if (listeners.includes(callback)) {
-      throw new Error("Trying to add the same listener multiple times");
-    }
-    listeners = listeners.concat(callback);
-
-    return () => {
-      if (!listeners.includes(callback)) {
-        throw new Error("Trying to remove an unknown listener");
-      }
-
-      listeners = removeArrayItem(listeners, callback);
-    };
-  };
+  const emitter = createEventEmitter();
 
   const setState = (newState, data) => {
     state = newState;
-    settings.logger?.info({
-      category: "pool",
-      state,
-      data,
-    });
-    listeners.forEach((listener) => listener(newState, data));
+    emitter.emit("state", { state, data });
   };
 
   const updateInstances = () => {
     if (!settings.maxFailures || failures <= settings.maxFailures) {
       const readyInstances = instances.filter(
-        (instance) => instance.state === FORK_STATES.READY,
+        (instance) => instance.getState() === FORK_STATES.READY,
       );
       const readyStoppableCount = readyInstances.length - settings.minInstances;
 
@@ -58,22 +40,23 @@ const createPool = () => {
         instances.forEach((instance) => {
           if (
             obsoleteInstances.includes(instance) &&
-            instance.state === FORK_STATES.STARTED
+            instance.getState() === FORK_STATES.STARTED
           ) {
-            instance.fork.stop();
+            instance.stop();
           }
         });
       }
 
       // start idle instances
       instances.forEach((instance) => {
+        const forkState = instance.getState();
         if (
-          instance.state === FORK_STATES.STOPPED ||
-          instance.state === FORK_STATES.FAILED
+          forkState === FORK_STATES.STOPPED ||
+          forkState === FORK_STATES.FAILED
         ) {
           obsoleteInstances = removeArrayItem(obsoleteInstances, instance);
           instances = removeArrayItem(instances, instance).concat(instance);
-          instance.fork.start(settings);
+          instance.start(settings);
         }
       });
 
@@ -82,8 +65,12 @@ const createPool = () => {
         readyInstances
           .filter((instance) => obsoleteInstances.includes(instance))
           .slice(0, readyStoppableCount)
-          .forEach((instance) => instance.fork.stop());
+          .forEach((instance) => instance.stop());
       }
+    } else if (
+      !instances.find((instance) => instance.getState() !== FORK_STATES.FAILED)
+    ) {
+      setState(STATES.FAILED);
     }
   };
 
@@ -96,23 +83,21 @@ const createPool = () => {
   };
 
   const startNewInstance = () => {
-    const instance = { fork: createFork(), state };
-
-    instance.fork.listen((forkState) => {
-      instance.state = forkState;
-      switch (instance.state) {
+    const newInstance = createFork();
+    newInstance.on("state", ({ state: forkState }) => {
+      switch (forkState) {
         case FORK_STATES.FAILED:
         case FORK_STATES.STOPPED: {
-          const hasFailed = instance.state === FORK_STATES.FAILED;
+          const hasFailed = forkState === FORK_STATES.FAILED;
           // up to date fork failed
-          if (!obsoleteInstances.includes(instance) && hasFailed) {
+          if (!obsoleteInstances.includes(newInstance) && hasFailed) {
             failures += 1;
           }
 
           switch (state) {
             case STATES.RELOADING:
               if (instances.length > settings.maxInstances) {
-                forgetInstance(instance);
+                forgetInstance(newInstance);
               } else {
                 updateInstances();
               }
@@ -124,7 +109,7 @@ const createPool = () => {
               }
               break;
             case STATES.STOPPING:
-              forgetInstance(instance);
+              forgetInstance(newInstance);
               if (!instances.length) {
                 setState(STATES.STOPPED);
               }
@@ -138,9 +123,9 @@ const createPool = () => {
           // all forks ready and up to date
           if (
             !instances.some(
-              (poolInstance) =>
-                poolInstance.state !== FORK_STATES.READY ||
-                obsoleteInstances.includes(poolInstance),
+              (instance) =>
+                instance.getState() !== FORK_STATES.READY ||
+                obsoleteInstances.includes(instance),
             )
           ) {
             setState(STATES.READY);
@@ -153,21 +138,24 @@ const createPool = () => {
       }
     });
 
-    instances = instances.concat(instance);
-    instance.fork.start(settings);
+    emitter.emit("instance", { instance: newInstance });
 
-    return instance;
+    instances = instances.concat(newInstance);
+    newInstance.start(settings);
+
+    return newInstance;
   };
 
   const start = async (newSettings) => {
     switch (state) {
+      case STATES.FAILED:
       case STATES.STOPPED: {
         failures = 0;
         settings = newSettings;
-        setState(STATES.STARTED);
+        setState(STATES.STARTED, newSettings);
 
         const output = new Promise((resolve) => {
-          const removeListener = listen((newState) => {
+          const removeListener = emitter.on("state", ({ state: newState }) => {
             removeListener();
             switch (newState) {
               case STATES.READY: {
@@ -200,7 +188,7 @@ const createPool = () => {
       case STATES.RELOADING: {
         setState(STATES.STOPPING);
         const output = new Promise((resolve) => {
-          const removeListener = listen((newState) => {
+          const removeListener = emitter.on("state", ({ state: newState }) => {
             removeListener();
             switch (newState) {
               case STATES.STOPPED: {
@@ -215,10 +203,10 @@ const createPool = () => {
         });
 
         instances.forEach((instance) => {
-          switch (instance.state) {
+          switch (instance.getState()) {
             case FORK_STATES.STARTED:
             case FORK_STATES.READY:
-              instance.fork.stop();
+              instance.stop();
               break;
             default:
               break;
@@ -235,6 +223,7 @@ const createPool = () => {
 
   const reload = (newSettings) => {
     switch (state) {
+      case STATES.FAILED:
       case STATES.STARTED:
       case STATES.RELOADING:
       case STATES.READY: {
@@ -248,7 +237,7 @@ const createPool = () => {
           settings.maxInstances - instances.length,
         );
         const output = new Promise((resolve) => {
-          const removeListener = listen((newState) => {
+          const removeListener = emitter.on("state", ({ state: newState }) => {
             removeListener();
             switch (newState) {
               case STATES.READY: {
@@ -276,11 +265,14 @@ const createPool = () => {
     }
   };
 
+  const getName = () => settings.name;
+
   return {
     start,
     stop,
     reload,
-    listen,
+    getName,
+    ...emitter,
   };
 };
 
