@@ -125,14 +125,18 @@ export const createCanal = (target = process) => {
 };
 
 let maxPidLength = Math.max(`${process.pid}`.length, "watcher".length);
+const getTimePrefix = () =>
+  `\x1b[2m${new Date().toISOString().replace(/[ZT]/g, " ")}\x1b[0m`;
 const getPoolPrefix = (pool) =>
-  `\x1b[36m${pool.getName()}\x1b[0m ${" ".repeat(maxPidLength)}  `;
+  `${getTimePrefix()}\x1b[36m${pool.getName()}\x1b[0m ${" ".repeat(
+    maxPidLength,
+  )}  `;
 const getInstancePrefix = (pool, worker) =>
-  `\x1b[36m${pool.getName()}\x1b[0m:\x1b[33m${worker.process.pid}${" ".repeat(
-    maxPidLength - `${worker.process.pid}`.length,
-  )}\x1b[0m   `;
+  `${getTimePrefix()}\x1b[36m${pool.getName()}\x1b[0m:\x1b[33m${
+    worker.process.pid
+  }${" ".repeat(maxPidLength - `${worker.process.pid}`.length)}\x1b[0m   `;
 const getWatcherPrefix = (pool) =>
-  `\x1b[36m${pool.getName()}\x1b[0m:\x1b[34mwatcher\x1b[0m   `;
+  `${getTimePrefix()}\x1b[36m${pool.getName()}\x1b[0m:\x1b[34mwatcher\x1b[0m   `;
 
 export const createInstanceLogger = (pool, instance, target = process) => {
   let instanceCanal;
