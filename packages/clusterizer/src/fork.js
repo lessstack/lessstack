@@ -66,6 +66,17 @@ const createFork = () => {
         worker.on("exit", (code, signal) => {
           setState(code ? STATES.FAILED : STATES.STOPPED, { code, signal });
         });
+        worker.on("error", () => {
+          switch (state) {
+            case STATES.STOPPING: {
+              worker.process.kill(settings.killSignal);
+              break;
+            }
+            default: {
+              stop();
+            }
+          }
+        });
 
         worker.process.stdout.on("data", (data) => {
           emitter.emit("stdout", { worker, data });
