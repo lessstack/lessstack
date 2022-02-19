@@ -80,7 +80,6 @@ export const render = (res, { props, logger = defaultLogger }) => {
       document: DefaultDocument,
       rootId: "root",
     };
-    let handledError = false;
     let toAppendFirst = "";
     let toAppendLast = "";
 
@@ -95,11 +94,6 @@ export const render = (res, { props, logger = defaultLogger }) => {
       ),
       {
         onCompleteShell() {
-          if (handledError) {
-            abort();
-            return reject(handledError);
-          }
-
           if (response.headers.Location) {
             res.writeHead(
               response.statusCode || 308,
@@ -152,7 +146,8 @@ export const render = (res, { props, logger = defaultLogger }) => {
           return pipe(pass);
         },
         onError(error) {
-          handledError = error;
+          abort();
+          return reject(error);
         },
       },
     );
