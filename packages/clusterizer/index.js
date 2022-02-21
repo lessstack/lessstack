@@ -53,6 +53,7 @@ const settingsList = configList.map((config, key) => ({
 if ((process.env.NODE_ENV ?? "development") === "development") {
   // eslint-disable-next-line no-console
   console.log("Starting clusterizer with settings:", settingsList);
+  // eslint-disable-next-line no-console
   console.table({ shortcuts: { reload: "ctrl-r", stop: "ctrl-c" } });
 }
 
