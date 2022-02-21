@@ -19,8 +19,8 @@
     "chokidar": "^3.5.2"
   },
   "devDependencies": {
-    "@lessstack/eslint-config": "0.1.0",
-    "@lessstack/prettier-config": "0.1.0",
+    "@lessstack/eslint-config": "^0.1.0",
+    "@lessstack/prettier-config": "^0.1.0",
     "eslint": "^8.2.0",
     "prettier": "^2.4.1"
   }
