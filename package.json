@@ -1,11 +1,10 @@
 {
-  "name": "witb",
+  "name": "lessstack",
   "version": "0.1.0",
   "private": "true",
   "license": "MIT",
   "workspaces": {
     "packages": [
-      "apps/*",
       "packages/*"
     ]
   },

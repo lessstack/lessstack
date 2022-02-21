@@ -1,4 +1,4 @@
 {
   "root": true,
-  "extends": ["@witb/eslint-config/esm"]
+  "extends": ["@lessstack/eslint-config/esm"]
 }

@@ -1,9 +1,10 @@
 {
-  "name": "@witb/clusterizer",
+  "name": "@lessstack/clusterizer",
   "version": "0.1.0",
   "main": "src/pool.js",
-  "author": "cahnory <cahnory@gmail.com>",
   "license": "MIT",
+  "author": "Cahnory (https://github.com/cahnory)",
+  "repository": "https://github.com/lessstack/lessstack",
   "private": true,
   "type": "module",
   "bin": {
@@ -16,8 +17,8 @@
     "chokidar": "^3.5.2"
   },
   "devDependencies": {
-    "@witb/eslint-config": "0.1.0",
-    "@witb/prettier-config": "0.1.0",
+    "@lessstack/eslint-config": "0.1.0",
+    "@lessstack/prettier-config": "0.1.0",
     "eslint": "^8.2.0",
     "prettier": "^2.4.1"
   }

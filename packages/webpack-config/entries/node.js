@@ -7,9 +7,9 @@ import RenderProvider from "../components/RenderProvider.js";
 import DefaultDocument from "../components/Document.js";
 import ConfigProvider from "../components/ConfigProvider.js";
 
-// __WITB__ is defined by webpack
+// __LESSSTACK__ is defined by webpack
 // eslint-disable-next-line no-undef
-const { publicPath, browserStatsPath, nodeStatsPath } = __WITB__;
+const { publicPath, browserStatsPath, nodeStatsPath } = __LESSSTACK__;
 
 const defaultLogger =
   (process.env.NODE_ENV ?? "development") === "development" ? console : null;
@@ -54,7 +54,7 @@ export const setup = (options) => {
   }
 
   // eslint-disable-next-line import/no-unresolved, global-require
-  ({ default: Client } = require("@witb/webpack-config/alias/client"));
+  ({ default: Client } = require("@lessstack/webpack-config/alias/client"));
 };
 
 export const isLoaded = () => clientIsLoaded;

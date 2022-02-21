@@ -1,8 +1,10 @@
 {
-  "name": "@witb/jest-config",
+  "name": "@lessstack/jest-config",
   "version": "0.1.0",
   "main": "jest-preset.js",
   "license": "MIT",
+  "author": "Cahnory (https://github.com/cahnory)",
+  "repository": "https://github.com/lessstack/lessstack",
   "private": true,
   "scripts": {
     "lint": "eslint ."

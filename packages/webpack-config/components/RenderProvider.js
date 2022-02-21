@@ -16,7 +16,7 @@ const RenderProvider = ({ children, html, extractor, collector, rootId }) => (
         <script
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
-            __html: `WITB_ENVIRONMENT_VARS = ${JSON.stringify({
+            __html: `LESSSTACK_ENVIRONMENT_VARS = ${JSON.stringify({
               rootId,
               // eslint-disable-next-line no-undef, camelcase
               webpackPublickPath: __webpack_public_path__,

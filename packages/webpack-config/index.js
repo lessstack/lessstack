@@ -25,7 +25,7 @@ export const createWebpackConfig = ({
   const publicPath = path.join(buildPath, "browser");
   const statsPath = path.join(buildPath, `${target}.stats.json`);
   const babelOptions = {
-    presets: ["module:@witb/babel-config"],
+    presets: ["module:@lessstack/babel-config"],
   };
 
   return {
@@ -49,7 +49,7 @@ export const createWebpackConfig = ({
 
     resolve: {
       alias: {
-        "@witb/webpack-config/alias/client": entry,
+        "@lessstack/webpack-config/alias/client": entry,
       },
     },
 
@@ -145,7 +145,7 @@ export const createWebpackConfig = ({
       }),
       !isBrowser &&
         new webpack.DefinePlugin({
-          __WITB__: JSON.stringify({
+          __LESSSTACK__: JSON.stringify({
             publicPath,
             browserStatsPath: path.join(buildPath, `browser.stats.json`),
             nodeStatsPath: path.join(buildPath, `node.stats.json`),

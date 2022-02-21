@@ -1,14 +1,16 @@
 {
-  "name": "@witb/eslint-config",
+  "name": "@lessstack/eslint-config",
   "version": "0.1.0",
   "main": "index.js",
   "license": "MIT",
+  "author": "Cahnory (https://github.com/cahnory)",
+  "repository": "https://github.com/lessstack/lessstack",
   "private": true,
   "scripts": {
     "lint": "eslint ."
   },
   "dependencies": {
-    "@witb/prettier-config": "0.1.0",
+    "@lessstack/prettier-config": "0.1.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.2",
