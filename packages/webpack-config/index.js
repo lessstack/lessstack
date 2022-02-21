@@ -1,3 +1,4 @@
+import { createRequire } from "module";
 import path from "path";
 import webpack from "webpack";
 import { WebpackPluginServe } from "webpack-plugin-serve";
@@ -5,6 +6,8 @@ import WebpackLoadablePlugin from "@loadable/webpack-plugin";
 import WebpackMiniCssExtractPlugin from "mini-css-extract-plugin";
 import WebpackReactRefreshPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import ImageMinimizerPlugin from "image-minimizer-webpack-plugin";
+
+const require = createRequire(import.meta.url);
 
 export const createWebpackConfig = ({
   // "browser" | "node" = "browser"
@@ -15,6 +18,7 @@ export const createWebpackConfig = ({
   watch = false,
   entry,
   buildPath,
+  rawDependencies,
   env,
 }) => {
   const isBrowser = target === "browser";
@@ -27,6 +31,10 @@ export const createWebpackConfig = ({
   const babelOptions = {
     presets: ["module:@lessstack/babel-config"],
   };
+
+  const includeDependencies = ["@lessstack/webpack-config"]
+    .concat(rawDependencies)
+    .filter(Boolean);
 
   return {
     name: target,
@@ -84,7 +92,12 @@ export const createWebpackConfig = ({
       rules: [
         {
           test: /\.(js|ts)x?$/,
-          exclude: /node_modules/,
+          exclude: {
+            and: [/node_modules/],
+            not: includeDependencies.map((dependency) =>
+              path.dirname(require.resolve(`${dependency}/package.json`)),
+            ),
+          },
           use: [
             {
               loader: "babel-loader",
@@ -186,6 +199,7 @@ export const createConfig = (options) => {
       target: "browser",
       entry: browserEntry,
       buildPath,
+      rawDependencies: options?.rawDependencies,
       env,
       mode,
       watch,
@@ -194,6 +208,7 @@ export const createConfig = (options) => {
       target: "node",
       entry: nodeEntry,
       buildPath,
+      rawDependencies: options?.rawDependencies,
       env,
       mode,
       watch,
