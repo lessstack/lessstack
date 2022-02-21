@@ -4,6 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "author": "Cahnory (https://github.com/cahnory)",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "scripts": {
     "lint": "eslint ."
