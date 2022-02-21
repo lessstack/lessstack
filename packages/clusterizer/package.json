@@ -5,7 +5,6 @@
   "license": "MIT",
   "author": "Cahnory (https://github.com/cahnory)",
   "repository": "https://github.com/lessstack/lessstack",
-  "private": true,
   "type": "module",
   "bin": {
     "clusterizer": "./index.js"

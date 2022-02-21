@@ -9,6 +9,8 @@
     ]
   },
   "scripts": {
+    "prepare": "lerna run prepare",
+    "prepublish": "yarn lint",
     "lint": "lerna exec -- yarn lint"
   },
   "resolutions": {

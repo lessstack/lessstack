@@ -4,7 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "author": "Cahnory (https://github.com/cahnory)",
-  "private": true,
   "type": "module",
   "scripts": {
     "lint": "eslint ."
