@@ -6,4 +6,8 @@ module.exports = {
     "\\.[jt]sx?$": "babel-jest",
     "\\.(gif|jpg|png|svg)$": path.join(__dirname, "transformers/base64.js"),
   },
+  transformIgnorePatterns: [
+    "/node_modules/(?!@lessstack/webpack-config)",
+    "\\.pnp\\.[^\\/]+$",
+  ],
 };
