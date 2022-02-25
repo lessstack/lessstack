@@ -1,3 +1,5 @@
+/* global __LESSSTACK__ */
+import path from "path";
 import React, { StrictMode } from "react";
 import { PassThrough } from "stream";
 import { renderToStaticMarkup, renderToPipeableStream } from "react-dom/server";
@@ -8,9 +10,12 @@ import DefaultDocument from "../components/Document.js";
 import ConfigProvider from "../components/ConfigProvider.js";
 
 // __LESSSTACK__ is defined by webpack
-// eslint-disable-next-line no-undef
-const { publicPath, browserStatsPath, nodeStatsPath } = __LESSSTACK__;
-
+const { publicPath } = __LESSSTACK__;
+const browserStatsPath = path.resolve(
+  __dirname,
+  __LESSSTACK__.browserStatsPath,
+);
+const nodeStatsPath = path.resolve(__dirname, __LESSSTACK__.nodeStatsPath);
 const defaultLogger =
   (process.env.NODE_ENV ?? "development") === "development" ? console : null;
 

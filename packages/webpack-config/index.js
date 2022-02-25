@@ -94,9 +94,16 @@ export const createWebpackConfig = ({
           test: /\.(js|ts)x?$/,
           exclude: {
             and: [/node_modules/],
-            not: includeDependencies.map((dependency) =>
-              path.dirname(require.resolve(`${dependency}/package.json`)),
-            ),
+            not: includeDependencies.map((dependency) => {
+              const dependencyBasePath = path.dirname(
+                require.resolve(`${dependency}/package.json`),
+              );
+
+              return {
+                and: [dependencyBasePath],
+                not: [path.join(dependencyBasePath, "node_modules")],
+              };
+            }),
           },
           use: [
             {
@@ -160,8 +167,8 @@ export const createWebpackConfig = ({
         new webpack.DefinePlugin({
           __LESSSTACK__: JSON.stringify({
             publicPath,
-            browserStatsPath: path.join(buildPath, `browser.stats.json`),
-            nodeStatsPath: path.join(buildPath, `node.stats.json`),
+            browserStatsPath: `./browser.stats.json`,
+            nodeStatsPath: `./node.stats.json`,
           }),
         }),
       new WebpackLoadablePlugin({
