@@ -1,6 +1,6 @@
 {
   "name": "@lessstack/babel-config",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "index.js",
   "license": "MIT",
   "author": "Cahnory (https://github.com/cahnory)",
@@ -20,8 +20,8 @@
     "@linaria/babel-preset": "^3.0.0-beta.13"
   },
   "devDependencies": {
-    "@lessstack/eslint-config": "^0.1.3",
-    "@lessstack/prettier-config": "^0.1.3",
+    "@lessstack/eslint-config": "^0.1.4",
+    "@lessstack/prettier-config": "^0.1.4",
     "eslint": "^8.2.0",
     "prettier": "^2.4.1"
   }

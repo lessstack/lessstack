@@ -1,6 +1,6 @@
 {
   "name": "@lessstack/prettier-config",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "index.js",
   "license": "MIT",
   "author": "Cahnory (https://github.com/cahnory)",
