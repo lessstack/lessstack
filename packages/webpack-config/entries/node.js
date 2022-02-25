@@ -10,12 +10,12 @@ import DefaultDocument from "../components/Document.js";
 import ConfigProvider from "../components/ConfigProvider.js";
 
 // __LESSSTACK__ is defined by webpack
-const { publicPath } = __LESSSTACK__;
 const browserStatsPath = path.resolve(
   __dirname,
   __LESSSTACK__.browserStatsPath,
 );
 const nodeStatsPath = path.resolve(__dirname, __LESSSTACK__.nodeStatsPath);
+const publicPath = path.resolve(__dirname, __LESSSTACK__.publicPath);
 const defaultLogger =
   (process.env.NODE_ENV ?? "development") === "development" ? console : null;
 

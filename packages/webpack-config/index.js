@@ -26,7 +26,6 @@ export const createWebpackConfig = ({
   const isHot = watch && isBrowser;
 
   const outputPath = isBrowser ? path.join(buildPath, "browser") : buildPath;
-  const publicPath = path.join(buildPath, "browser");
   const statsPath = path.join(buildPath, `${target}.stats.json`);
   const babelOptions = {
     presets: ["module:@lessstack/babel-config"],
@@ -166,7 +165,7 @@ export const createWebpackConfig = ({
       !isBrowser &&
         new webpack.DefinePlugin({
           __LESSSTACK__: JSON.stringify({
-            publicPath,
+            publicPath: "./browser",
             browserStatsPath: `./browser.stats.json`,
             nodeStatsPath: `./node.stats.json`,
           }),
