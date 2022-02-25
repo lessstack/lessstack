@@ -1,6 +1,6 @@
 {
   "name": "@lessstack/express-middleware-web",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "index.js",
   "license": "MIT",
   "author": "Cahnory (https://github.com/cahnory)",
@@ -13,8 +13,8 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@lessstack/eslint-config": "^0.1.4",
-    "@lessstack/prettier-config": "^0.1.4",
+    "@lessstack/eslint-config": "^0.1.5",
+    "@lessstack/prettier-config": "^0.1.5",
     "eslint": "^8.2.0",
     "express": "^4.17.1",
     "prettier": "^2.4.1"

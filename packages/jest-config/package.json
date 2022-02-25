@@ -1,6 +1,6 @@
 {
   "name": "@lessstack/jest-config",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "jest-preset.js",
   "license": "MIT",
   "author": "Cahnory (https://github.com/cahnory)",

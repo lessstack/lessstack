@@ -1,6 +1,6 @@
 {
   "name": "@lessstack/webpack-config",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "index.js",
   "license": "MIT",
   "author": "Cahnory (https://github.com/cahnory)",
@@ -43,9 +43,9 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
-    "@lessstack/babel-config": "^0.1.4",
-    "@lessstack/eslint-config": "^0.1.4",
-    "@lessstack/prettier-config": "^0.1.4",
+    "@lessstack/babel-config": "^0.1.5",
+    "@lessstack/eslint-config": "^0.1.5",
+    "@lessstack/prettier-config": "^0.1.5",
     "eslint": "^8.2.0",
     "prettier": "^2.4.1"
   },

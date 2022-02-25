@@ -1,6 +1,6 @@
 {
   "name": "@lessstack/clusterizer",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "src/pool.js",
   "license": "MIT",
   "author": "Cahnory (https://github.com/cahnory)",
@@ -19,8 +19,8 @@
     "chokidar": "^3.5.2"
   },
   "devDependencies": {
-    "@lessstack/eslint-config": "^0.1.4",
-    "@lessstack/prettier-config": "^0.1.4",
+    "@lessstack/eslint-config": "^0.1.5",
+    "@lessstack/prettier-config": "^0.1.5",
     "eslint": "^8.2.0",
     "prettier": "^2.4.1"
   }
