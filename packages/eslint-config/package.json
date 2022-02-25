@@ -1,6 +1,6 @@
 {
   "name": "@lessstack/eslint-config",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "index.js",
   "license": "MIT",
   "author": "Cahnory (https://github.com/cahnory)",
@@ -12,7 +12,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@lessstack/prettier-config": "^0.1.5",
+    "@lessstack/prettier-config": "^0.1.6",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.2",
