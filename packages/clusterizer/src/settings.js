@@ -61,12 +61,12 @@ const createSettings = (options) => {
     : null;
 
   // LOGGER related settings
-  config.logs = !!(options.logs ?? true);
+  config.logs = !!(options.logs ?? false);
   config.logs = {
+    workerOut: options.logs?.workerOut ?? true,
+    workerErr: options.logs?.workerErr ?? true,
     poolState: options.logs?.poolState ?? config.logs,
     workerState: options.logs?.workerState ?? config.logs,
-    workerOut: options.logs?.workerOut ?? config.logs,
-    workerErr: options.logs?.workerErr ?? config.logs,
     watcherState: options.logs?.watcherState ?? config.logs,
     watcherUpdate: options.logs?.watcherUpdate ?? config.logs,
     prefixWorkerOut: options.logs?.prefixWorkerOut ?? config.logs,
