@@ -1,4 +1,4 @@
-import { Links, Scripts, Styles } from "@lessstack/react/build";
+import { Links, Scripts, Styles } from "@lessstack/react";
 
 const App = () => (
   <html lang="en">

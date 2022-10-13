@@ -1,7 +1,7 @@
 {
   "name": "@lessstack/example-client-web",
   "version": "0.1.6",
-  "main": "index.js",
+  "main": "build/node.js",
   "license": "MIT",
   "author": "Cahnory (https://github.com/cahnory)",
   "repository": "https://github.com/lessstack/lessstack",
