@@ -1,0 +1,36 @@
+{
+  "name": "@lessstack/react",
+  "version": "0.1.6",
+  "main": "build/index.js",
+  "license": "MIT",
+  "author": "Cahnory (https://github.com/cahnory)",
+  "repository": "https://github.com/lessstack/lessstack",
+  "scripts": {
+    "lint": "eslint",
+    "build": "tsc --outDir build",
+    "dev": "tsc --outDir build --watch"
+  },
+  "dependencies": {
+    "@loadable/component": "^5.15.2",
+    "@loadable/server": "^5.15.2"
+  },
+  "devDependencies": {
+    "@lessstack/eslint-config": "workspace:*",
+    "@lessstack/prettier-config": "workspace:*",
+    "@lessstack/typescript-config": "workspace:*",
+    "@types/loadable__component": "^5.13.4",
+    "@types/loadable__server": "^5.12.6",
+    "@types/node": "^18.8.5",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "eslint": "^8.2.0",
+    "prettier": "^2.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

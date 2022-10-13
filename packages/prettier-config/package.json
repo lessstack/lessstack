@@ -1,0 +1,14 @@
+{
+  "name": "@lessstack/prettier-config",
+  "version": "0.1.6",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "Cahnory (https://github.com/cahnory)",
+  "repository": "https://github.com/lessstack/lessstack",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "prettier": "^2.4.1"
+  }
+}

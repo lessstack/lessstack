@@ -1,16 +1,34 @@
 {
   "name": "@lessstack/eslint-config",
   "version": "0.1.6",
-  "main": "index.js",
+  "main": "./index.js",
   "license": "MIT",
+  "author": "Cahnory (https://github.com/cahnory)",
+  "repository": "https://github.com/lessstack/lessstack",
+  "scripts": {
+    "lint": "eslint ."
+  },
   "dependencies": {
-    "eslint": "^7.23.0",
+    "@typescript-eslint/eslint-plugin": "^5.40.0",
+    "@typescript-eslint/parser": "^5.40.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-react": "7.31.8",
-    "eslint-config-turbo": "latest"
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-sort-destructure-keys": "^1.4.0",
+    "eslint-plugin-typescript-sort-keys": "^2.1.0"
   },
   "devDependencies": {
+    "@lessstack/prettier-config": "workspace:*",
+    "@lessstack/typescript-config": "workspace:*",
+    "eslint": "^8.2.0",
+    "prettier": "^2.4.1",
     "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "eslint": "^8.2.0",
+    "prettier": "^2.4.1"
   },
   "publishConfig": {
     "access": "public"

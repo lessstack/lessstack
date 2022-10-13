@@ -1,7 +1,4 @@
+/** @type {import('eslint').ConfigData} */
 module.exports = {
-  extends: ["turbo", "prettier"],
-  rules: {
-    "@next/next/no-html-link-for-pages": "off",
-    "react/jsx-key": "off",
-  },
+  extends: ["./base", "./jest", "./react", "./typescript"],
 };

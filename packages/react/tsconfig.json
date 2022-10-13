@@ -1,0 +1,7 @@
+{
+  "extends": "@lessstack/typescript-config/react.json",
+  "compilerOptions": {
+    "module": "CommonJS"
+  },
+  "include": ["src"]
+}

@@ -1,0 +1,5 @@
+{
+  "extends": "@lessstack/typescript-config/base",
+  "include": ["**/*.ts", "**/*.tsx", "webpack.config.js"],
+  "exclude": ["node_modules", "build"]
+}
