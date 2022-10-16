@@ -1,7 +1,7 @@
 {
   "name": "@lessstack/react",
   "version": "0.1.6",
-  "main": "build/index.js",
+  "main": "build/browser.js",
   "license": "MIT",
   "author": "Cahnory (https://github.com/cahnory)",
   "repository": "https://github.com/lessstack/lessstack",

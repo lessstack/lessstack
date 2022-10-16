@@ -1,9 +1,9 @@
 import type { FC } from "react";
 import { useContext } from "react";
-import NodeContext from "./NodeContext.js";
+import RenderContext from "../contexts/Render";
 
 const ExtractedLinks: FC = () => {
-  const { collector, links } = useContext(NodeContext);
+  const { collector, links } = useContext(RenderContext);
   collector.linksAdded = true;
   return <>{links}</>;
 };

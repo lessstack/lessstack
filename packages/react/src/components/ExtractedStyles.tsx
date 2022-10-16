@@ -1,9 +1,9 @@
 import type { FC } from "react";
 import { useContext } from "react";
-import NodeContext from "./NodeContext.js";
+import RenderContext from "../contexts/Render.js";
 
 const ExtractedStyles: FC = () => {
-  const { collector, styles } = useContext(NodeContext);
+  const { collector, styles } = useContext(RenderContext);
   collector.stylesAdded = true;
   return <>{styles}</>;
 };
