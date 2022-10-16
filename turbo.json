@@ -6,9 +6,8 @@
       "outputs": ["build/**"]
     },
     "dev": {
-      "dependsOn": ["^build"],
-      "outputs": ["build/**"],
-      "cache": false
+      "cache": false,
+      "outputs": ["build/**"]
     },
     "lint": {
       "outputs": []

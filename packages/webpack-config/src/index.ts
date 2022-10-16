@@ -6,6 +6,7 @@ import WebpackLoadablePlugin from "@loadable/webpack-plugin";
 import WebpackMiniCssExtractPlugin from "mini-css-extract-plugin";
 import WebpackReactRefreshPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import ImageMinimizerPlugin from "image-minimizer-webpack-plugin";
+import BundleAsFunction from "./BundleAsFunction";
 
 export type WebpackArgv = {
   env: {
@@ -43,6 +44,7 @@ export const createTargetConfig = ({
       (isDevelopment && "eval-cheap-module-source-map"),
     entry: [
       !isBrowser && require.resolve("source-map-support/register"),
+      require.resolve("./runtime"),
       isHot && require.resolve("webpack-plugin-serve/client"),
       entry,
     ].filter<string>(isEnabled),
@@ -153,6 +155,7 @@ export const createTargetConfig = ({
       path: outputPath,
     },
     plugins: [
+      !isBrowser && new BundleAsFunction(),
       !isBrowser &&
         new webpack.optimize.LimitChunkCountPlugin({
           maxChunks: 1,
@@ -174,10 +177,9 @@ export const createTargetConfig = ({
         filename: isHot ? "[name].css" : "[name].[contenthash].css",
       }),
       new webpack.DefinePlugin({
-        __LESSSTACK__: JSON.stringify({
-          browserStatsPath: `./browser.stats.json`,
-          nodeStatsPath: `./node.stats.json`,
+        __LESSSTACK_BUILD_PROPS__: JSON.stringify({
           publicPath: "./browser",
+          statsPath: `./browser.stats.json`,
         }),
       }),
       new WebpackLoadablePlugin({

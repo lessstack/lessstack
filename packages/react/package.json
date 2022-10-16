@@ -6,11 +6,12 @@
   "author": "Cahnory (https://github.com/cahnory)",
   "repository": "https://github.com/lessstack/lessstack",
   "scripts": {
-    "lint": "eslint",
+    "lint": "eslint && tsc --noEmit",
     "build": "tsc --outDir build",
     "dev": "tsc --outDir build --watch"
   },
   "dependencies": {
+    "@lessstack/webpack-config": "workspace:*",
     "@loadable/component": "^5.15.2",
     "@loadable/server": "^5.15.2"
   },

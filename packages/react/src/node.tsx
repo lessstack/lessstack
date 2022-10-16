@@ -3,50 +3,44 @@ import { renderToPipeableStream } from "react-dom/server";
 import { PassThrough } from "stream";
 import NodeWrapper from "./components/NodeWrapper";
 
+import type { LessstackBuildProps } from "@lessstack/webpack-config/types";
 import type { EntryNode } from "./types";
 import type { JSXElementConstructor } from "react";
 import type { NodeWrapperProps } from "./components/NodeWrapper";
 
-// eslint-disable-next-line no-var
-declare var __LESSSTACK__: {
-  browserStatsPath: string;
-  publicPath: string;
-};
+declare global {
+  const __LESSSTACK_BUILD_PROPS__: LessstackBuildProps;
+}
 
-const browserStatsPath = path.resolve(
+const statsPath = path.resolve(__dirname, __LESSSTACK_BUILD_PROPS__.statsPath);
+
+export const publicPath = path.resolve(
   __dirname,
-  __LESSSTACK__.browserStatsPath,
+  __LESSSTACK_BUILD_PROPS__.publicPath,
 );
-
-export const publicPath = path.resolve(__dirname, __LESSSTACK__.publicPath);
 
 export const streamRendering = ({
   component: Component,
-  publicRoute,
   response,
 }: {
   component: EntryNode;
-  publicRoute: string;
   response: NodeJS.WritableStream;
 }) => {
   const { pipe } = renderToPipeableStream(
     <Component
       options={{
-        browserStatsPath,
         doctype: "<!DOCTYPE html>",
         hydratation: "all",
-        publicPath,
-        publicRoute,
         response: {
           headers: {} as Record<Lowercase<string>, string>,
           statusCode: 200,
           statusMessage: "",
         },
+        statsPath,
       }}
     />,
     {
       onAllReady: () => {
-        console.log(publicPath);
         const pass = new PassThrough();
         pass.on("data", (chunk) => response.write(chunk));
         pass.on("close", () => {
@@ -80,5 +74,5 @@ export const createEntry = (
         ...options,
         component: Entry,
       }),
-  };
+  } as const;
 };

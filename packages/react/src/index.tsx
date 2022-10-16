@@ -12,11 +12,6 @@ export const hydrate = (
   Component: JSXElementConstructor<Record<string, never>>,
 ) =>
   loadableReady(() => {
-    if (globalThis.LESSSTACK_ENVIRONMENT_VARS.webpackPublickPath) {
-      __webpack_public_path__ =
-        globalThis.LESSSTACK_ENVIRONMENT_VARS.webpackPublickPath;
-    }
-
     hydrateRoot(
       document,
       <StrictMode>

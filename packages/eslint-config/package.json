@@ -6,7 +6,7 @@
   "author": "Cahnory (https://github.com/cahnory)",
   "repository": "https://github.com/lessstack/lessstack",
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.40.0",

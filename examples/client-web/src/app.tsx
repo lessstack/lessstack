@@ -1,4 +1,5 @@
 import { Links, Scripts, Styles } from "@lessstack/react";
+import logo from "./logo.svg";
 
 const App = () => (
   <html lang="en">
@@ -9,6 +10,7 @@ const App = () => (
     </head>
     <body>
       Hello world
+      <img alt="" src={logo} />
       <Scripts />
     </body>
   </html>

@@ -1,8 +1,4 @@
 {
   "root": true,
-  "extends": [
-    "@lessstack/eslint-config/base",
-    "@lessstack/eslint-config/typescript",
-    "@lessstack/eslint-config/react"
-  ]
+  "extends": "@lessstack/eslint-config"
 }

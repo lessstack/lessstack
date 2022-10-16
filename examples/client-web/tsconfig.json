@@ -1,5 +1,6 @@
 {
   "extends": "@lessstack/typescript-config/react.json",
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "build"]
+  "exclude": ["node_modules", "build"],
+  "files": ["lessstack-env.d.ts"]
 }
