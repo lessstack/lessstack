@@ -1,4 +1,3 @@
-import path from "path";
 import { renderToPipeableStream, renderToStaticMarkup } from "react-dom/server";
 import { PassThrough } from "stream";
 import { StrictMode } from "react";
@@ -10,27 +9,34 @@ import Document from "../components/Document";
 
 import type { ServerResponse } from "http";
 import type { Writable } from "stream";
-import type { EntryNode, RenderOptions } from "../types";
+import type { RendererBaseOptions, RenderOptions } from "../types";
 import type {
   RenderCollector,
   RenderCollectorLogger,
 } from "../renderCollector";
 
-export const redirectionStatusCodes = [300, 301, 302, 303, 304, 307, 308];
+export const redirectionStatusCodes = [
+  300, 301, 302, 303, 304, 307, 308,
+] as const;
 
-export const renderToStream = ({
+export type RenderToStreamResponse = ServerResponse | Writable;
+
+export type RenderToStreamOptions<Props extends object = object> =
+  RendererBaseOptions<Props> & {
+    logger?: RenderCollectorLogger;
+    publicPath: string;
+    response: RenderToStreamResponse;
+    statsPath: string;
+  };
+
+export const renderToStream = <Props extends object = object>({
   component: Component,
+  initialProps = {} as Props,
   logger,
   publicPath,
   response,
   statsPath,
-}: {
-  component: EntryNode;
-  logger?: RenderCollectorLogger;
-  publicPath: string;
-  response: ServerResponse | Writable;
-  statsPath: string;
-}) => {
+}: RenderToStreamOptions<Props>) => {
   const extractor = new ChunkExtractor({
     publicPath,
     statsFile: statsPath,
@@ -40,6 +46,7 @@ export const renderToStream = ({
     doctype: "<!DOCTYPE html>",
     document: Document,
     hydratation: "all",
+    initialProps: {},
     response: {
       headers: {},
       statusCode: 200,
@@ -52,7 +59,7 @@ export const renderToStream = ({
   const { pipe } = renderToPipeableStream(
     extractor.collectChunks(
       <ConfigContext.Provider value={config}>
-        <Component />
+        <Component {...initialProps} />
       </ConfigContext.Provider>,
     ),
     {
@@ -105,7 +112,9 @@ const startRenderOutput = ({
 }) => {
   if ("writeHead" in response && config.response.headers.location) {
     response.writeHead(
-      redirectionStatusCodes.includes(config.response.statusCode)
+      (redirectionStatusCodes as readonly number[]).includes(
+        config.response.statusCode,
+      )
         ? config.response.statusCode
         : 308,
       config.response.statusMessage,
@@ -114,7 +123,7 @@ const startRenderOutput = ({
     return;
   }
 
-  const { document: Document, rootId } = config;
+  const { document: Document, initialProps, rootId } = config;
   const collector: RenderCollector = {
     linksAdded: false,
     rootAdded: false,
@@ -124,8 +133,9 @@ const startRenderOutput = ({
   const [beforeRender, afterRender] = renderToStaticMarkup(
     <StrictMode>
       <NodeWrapper
-        extractor={extractor}
         collector={collector}
+        extractor={extractor}
+        initialProps={initialProps}
         rootHtml={">>>><<<<"}
         rootId={rootId}
       >

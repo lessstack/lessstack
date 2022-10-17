@@ -3,17 +3,18 @@ import RenderContext from "../contexts/Render";
 
 import type { FC, ReactElement } from "react";
 import type { ChunkExtractor } from "@loadable/server";
-import type { LessstackRuntimeProps } from "@lessstack/webpack-config/types";
 import type { RenderCollector } from "../renderCollector";
 import type { RenderContextProps } from "../contexts/Render";
+import type { InitialProps, LessstackRuntimeProps } from "../types";
 
 const NodeWrapper: FC<{
   children: ReactElement;
   collector: RenderCollector;
   extractor: ChunkExtractor;
+  initialProps: InitialProps;
   rootHtml: string;
   rootId: string;
-}> = ({ children, collector, extractor, rootHtml, rootId }) => {
+}> = ({ children, collector, extractor, initialProps, rootHtml, rootId }) => {
   const RenderContextValue = useMemo<RenderContextProps>(
     () => ({
       collector,
@@ -25,6 +26,7 @@ const NodeWrapper: FC<{
           key="__LESSSTACK_GLOBAL_VARS__"
           dangerouslySetInnerHTML={{
             __html: `__LESSSTACK_RUNTIME_PROPS__=${JSON.stringify({
+              initialProps,
               rootId,
               webpackPublicPath: __LESSSTACK_RUNTIME_PROPS__.webpackPublicPath,
             } as LessstackRuntimeProps)};`,
@@ -33,7 +35,7 @@ const NodeWrapper: FC<{
       ].concat(filterHmrElements(extractor.getScriptElements())),
       styles: filterHmrElements(extractor.getStyleElements()),
     }),
-    [collector, extractor, rootHtml, rootId],
+    [collector, extractor, initialProps, rootHtml, rootId],
   );
 
   return (

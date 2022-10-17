@@ -2,14 +2,32 @@ import type {
   LessstackBuildProps as LessstackWebpackBuildProps,
   LessstackRuntimeProps as LessstackWebpackRuntimeProps,
 } from "@lessstack/webpack-config/types";
-import type { JSXElementConstructor } from "react";
+import type { ComponentType } from "react";
 
 export type RootId = string;
+export type InitialProps = object;
 
-export type RenderOptions = {
+export type InitialPropsOption<Props extends object = object> =
+  keyof Props extends never
+    ? Props extends Record<string, never>
+      ? { initialProps?: Record<string, never> }
+      : { initialProps: undefined }
+    : {
+        initialProps: Props;
+      };
+
+export type ComponentOption<Props extends object = object> = {
+  component: ComponentType<Props>;
+};
+
+export type RendererBaseOptions<Props extends object = object> =
+  ComponentOption<Props> & InitialPropsOption<Props>;
+
+export type RenderOptions<Props extends object = object> = {
   doctype: string;
-  document: JSXElementConstructor<Record<number | string, never>>;
+  document: ComponentType<Props>;
   hydratation: "all" | "selective";
+  initialProps: object;
   response: {
     // headers: Record<Lowercase<string>, string>;
     headers: Record<string, string>;
@@ -20,9 +38,8 @@ export type RenderOptions = {
   statsPath: string;
 };
 
-export type EntryNode = JSXElementConstructor<Record<string, never>>;
-
 export type LessstackRuntimeProps = LessstackWebpackRuntimeProps & {
+  initialProps: InitialProps;
   rootId: RootId;
 };
 

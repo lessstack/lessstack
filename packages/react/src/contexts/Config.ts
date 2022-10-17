@@ -7,6 +7,7 @@ const ConfigContext = createContext<RenderOptions>({
   doctype: "<!DOCTYPE html>",
   document: Document,
   hydratation: "all",
+  initialProps: {},
   response: {
     headers: {} as RenderOptions["response"]["headers"],
     statusCode: 200,

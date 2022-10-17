@@ -8,6 +8,7 @@ const Config: FC<Partial<RenderOptions> & { children?: ReactNode }> = ({
   doctype,
   document,
   hydratation,
+  initialProps,
   response,
   rootId,
   statsPath,
@@ -16,6 +17,9 @@ const Config: FC<Partial<RenderOptions> & { children?: ReactNode }> = ({
 
   config.doctype = doctype ?? config.doctype;
   config.document = document ?? config.document;
+  config.initialProps = initialProps
+    ? { ...config.initialProps, ...initialProps }
+    : config.initialProps;
   config.hydratation = hydratation ?? config.hydratation;
   config.response = response
     ? {

@@ -1,4 +1,5 @@
 /* eslint-env browser */
+import type { ComponentType } from "react";
 import { StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
 import { loadableReady, lazy, default as loadable } from "@loadable/component";
@@ -9,9 +10,8 @@ import Root from "./components/Root";
 import Config from "./components/Config";
 import Document from "./components/Document";
 
-import type { JSXElementConstructor } from "react";
-export const hydrate = (
-  Component: JSXElementConstructor<Record<string, never>>,
+export const hydrate = <Props extends object = object>(
+  Component: ComponentType<Props>,
 ) =>
   loadableReady(() => {
     const root = document.getElementById(__LESSSTACK_RUNTIME_PROPS__.rootId);
@@ -26,7 +26,7 @@ export const hydrate = (
     hydrateRoot(
       root,
       <StrictMode>
-        <Component />
+        <Component {...(__LESSSTACK_RUNTIME_PROPS__.initialProps as Props)} />
       </StrictMode>,
     );
   });

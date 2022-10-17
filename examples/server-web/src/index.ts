@@ -12,12 +12,17 @@ const { entry: secondary } = createClient({
 });
 app.use("/secondary/test", express.static(secondary.publicPath));
 app.use("/secondary", (req, res) => {
-  secondary.streamRendering({ response: res });
+  secondary.streamRendering({
+    initialProps: {},
+    response: res,
+  });
 });
 
 app.use("/assets", express.static(primary.publicPath));
 app.use((req, res) => {
-  primary.streamRendering({ response: res });
+  primary.streamRendering({
+    response: res,
+  });
 });
 
 app.listen(3000);
