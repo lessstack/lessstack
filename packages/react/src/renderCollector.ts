@@ -5,12 +5,14 @@ export type RenderCollector = {
   stylesAdded: boolean;
 };
 
-export type RenderCollectorLogger = (message: string) => void;
+export type RenderCollectorLogger = {
+  error: (...obj: unknown[]) => void;
+  log: (...obj: unknown[]) => void;
+  warn: (...obj: unknown[]) => void;
+};
 
-export const defaultLogger =
-  (process.env.NODE_ENV ?? "development") === "development"
-    ? console.warn
-    : null;
+export const defaultLogger: RenderCollectorLogger | null =
+  (process.env.NODE_ENV ?? "development") === "development" ? console : null;
 
 export const validateCollector = (
   collector: RenderCollector,
@@ -18,15 +20,15 @@ export const validateCollector = (
 ) => {
   if (logger !== null) {
     if (!collector.scriptsAdded) {
-      logger(`Custom Document does not contain <ExtractedScripts />`);
+      logger.warn(`Custom Document does not contain <ExtractedScripts />`);
     }
 
     if (!collector.linksAdded) {
-      logger(`Custom? Document does not contain <ExtractedLinks />`);
+      logger.warn(`Custom? Document does not contain <ExtractedLinks />`);
     }
 
     if (!collector.stylesAdded) {
-      logger(`Custom Document does not contain <ExtractedStyles />`);
+      logger.warn(`Custom Document does not contain <ExtractedStyles />`);
     }
   }
 

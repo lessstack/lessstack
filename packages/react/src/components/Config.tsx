@@ -3,15 +3,24 @@ import { useContext } from "react";
 import ConfigContext from "../contexts/Config";
 import type { RenderOptions } from "../types";
 
-const Config: FC<Partial<RenderOptions> & { children?: ReactNode }> = ({
+const Config: FC<{
+  children?: ReactNode;
+  doctype?: RenderOptions["doctype"];
+  document?: RenderOptions["document"];
+  hydratation?: RenderOptions["hydratation"];
+  initialProps?: RenderOptions["initialProps"];
+  response?: Partial<RenderOptions["response"]>;
+  rootId?: RenderOptions["rootId"];
+  statsPath?: RenderOptions["statsPath"];
+}> = ({
   children = null,
-  doctype,
-  document,
-  hydratation,
-  initialProps,
-  response,
-  rootId,
-  statsPath,
+  doctype = null,
+  document = null,
+  hydratation = null,
+  initialProps = null,
+  response = null,
+  rootId = null,
+  statsPath = null,
 }) => {
   const config = useContext(ConfigContext);
 

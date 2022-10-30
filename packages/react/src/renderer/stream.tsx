@@ -76,8 +76,11 @@ export const renderToStream = <Props extends object = object>({
           response,
         });
       },
+      onError(error) {
+        logger?.error?.(error);
+      },
       onShellError(error) {
-        console.log(error);
+        logger?.error?.(error);
         response.end();
       },
       onShellReady() {
@@ -110,17 +113,25 @@ const startRenderOutput = ({
   pipe: (stream: Writable) => void;
   response: ServerResponse | Writable;
 }) => {
-  if ("writeHead" in response && config.response.headers.location) {
+  if ("writeHead" in response) {
+    if (config.response.headers.location) {
+      response.writeHead(
+        (redirectionStatusCodes as readonly number[]).includes(
+          config.response.statusCode,
+        )
+          ? config.response.statusCode
+          : 308,
+        config.response.statusMessage,
+        config.response.headers,
+      );
+      return;
+    }
+
     response.writeHead(
-      (redirectionStatusCodes as readonly number[]).includes(
-        config.response.statusCode,
-      )
-        ? config.response.statusCode
-        : 308,
+      config.response.statusCode,
       config.response.statusMessage,
       config.response.headers,
     );
-    return;
   }
 
   const { document: Document, initialProps, rootId } = config;
