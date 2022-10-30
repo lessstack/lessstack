@@ -1,12 +1,14 @@
 {
   "name": "@lessstack/eslint-config",
   "version": "0.1.6",
-  "main": "./index.js",
+  "main": "build/index.js",
   "license": "MIT",
   "author": "Cahnory (https://github.com/cahnory)",
   "repository": "https://github.com/lessstack/lessstack",
   "scripts": {
-    "lint": "eslint"
+    "lint": "eslint && tsc --noEmit",
+    "build": "tsc --outDir build",
+    "dev": "tsc --outDir build --watch"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.40.0",

@@ -1,11 +1,5 @@
 {
   "extends": "@lessstack/typescript-config/base.json",
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"],
-  "compilerOptions": {
-    "lib": ["ESNext"],
-    "outDir": "build",
-    "declaration": true,
-    "esModuleInterop": false
-  }
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
