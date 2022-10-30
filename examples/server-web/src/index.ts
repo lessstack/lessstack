@@ -13,7 +13,10 @@ const { entry: secondary } = createClient({
 app.use("/secondary/test", express.static(secondary.publicPath));
 app.use("/secondary", (req, res) => {
   secondary.streamRendering({
-    initialProps: {},
+    initialProps: {
+      basename: req.baseUrl,
+      location: req.originalUrl,
+    },
     response: res,
   });
 });
@@ -21,6 +24,10 @@ app.use("/secondary", (req, res) => {
 app.use("/assets", express.static(primary.publicPath));
 app.use((req, res) => {
   primary.streamRendering({
+    initialProps: {
+      basename: req.baseUrl,
+      location: req.originalUrl,
+    },
     response: res,
   });
 });

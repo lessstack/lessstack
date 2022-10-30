@@ -2,11 +2,11 @@ import type { FC } from "react";
 import { Link } from "react-router-dom";
 import routes from "../routes";
 
-const PageA: FC = () => (
+const PageB: FC = () => (
   <>
-    <div>PageA</div>
-    <Link to={routes.pageB}>PageB</Link>
+    <div>PageB</div>
+    <Link to={routes.pageA}>PageA</Link>
   </>
 );
 
-export default PageA;
+export default PageB;

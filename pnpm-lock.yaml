@@ -41,11 +41,13 @@ importers:
       eslint: ^8.26.0
       prettier: ^2.4.1
       react: ^18.2.0
+      react-router-dom: ^6.4.2
       typescript: ^4.7.4
       webpack: ^5.74.0
       webpack-cli: ^4.10.0
     dependencies:
       react: 18.2.0
+      react-router-dom: 6.4.2_react@18.2.0
     devDependencies:
       '@lessstack/eslint-config': link:../../packages/eslint-config
       '@lessstack/prettier-config': link:../../packages/prettier-config
@@ -1873,6 +1875,11 @@ packages:
       schema-utils: 3.1.1
       source-map: 0.7.4
       webpack-plugin-serve: 1.6.0
+    dev: false
+
+  /@remix-run/router/1.0.2:
+    resolution: {integrity: sha512-GRSOFhJzjGN+d4sKHTMSvNeUPoZiDHWmRnXfzaxrqe7dE/Nzlc8BiMSJdLDESZlndM7jIUrZ/F4yWqVYlI0rwQ==}
+    engines: {node: '>=14'}
     dev: false
 
   /@sindresorhus/is/0.7.0:
@@ -6233,6 +6240,28 @@ packages:
   /react-refresh/0.14.0:
     resolution: {integrity: sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /react-router-dom/6.4.2_react@18.2.0:
+    resolution: {integrity: sha512-yM1kjoTkpfjgczPrcyWrp+OuQMyB1WleICiiGfstnQYo/S8hPEEnVjr/RdmlH6yKK4Tnj1UGXFSa7uwAtmDoLQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.0.2
+      react: 18.2.0
+      react-router: 6.4.2_react@18.2.0
+    dev: false
+
+  /react-router/6.4.2_react@18.2.0:
+    resolution: {integrity: sha512-Rb0BAX9KHhVzT1OKhMvCDMw776aTYM0DtkxqUBP8dNBom3mPXlfNs76JNGK8wKJ1IZEY1+WGj+cvZxHVk/GiKw==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.0.2
+      react: 18.2.0
     dev: false
 
   /react/18.2.0:
