@@ -22,7 +22,7 @@
   "devDependencies": {
     "@lessstack/prettier-config": "workspace:*",
     "@lessstack/typescript-config": "workspace:*",
-    "eslint": "^8.2.0",
+    "eslint": "^8.26.0",
     "prettier": "^2.4.1",
     "typescript": "^4.7.4"
   },
