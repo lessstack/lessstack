@@ -1,5 +1,6 @@
 import path from "path";
 
+import type { Configuration as WebpackConfiguration } from "webpack";
 import webpack from "webpack";
 import { WebpackPluginServe } from "webpack-plugin-serve";
 import WebpackLoadablePlugin from "@loadable/webpack-plugin";
@@ -14,6 +15,14 @@ export type WebpackArgv = {
   };
   mode: "development" | "production";
   watch: boolean;
+};
+export type WebpackEnv = {
+  WEBPACK_BUILD?: boolean;
+  WEBPACK_BUNDLE?: boolean;
+  WEBPACK_DEV_SERVER_PACKAGE?: string;
+  WEBPACK_PACKAGE?: string;
+  WEBPACK_SERVE?: boolean;
+  WEBPACK_WATCH?: boolean;
 };
 
 const isEnabled = <T = unknown>(value: unknown): value is Exclude<T, false> =>
@@ -30,7 +39,7 @@ export const createTargetConfig = ({
   buildPath: string;
   entry: string;
   target: "browser" | "node";
-}): webpack.Configuration => {
+}): WebpackConfiguration => {
   const isBrowser = target === "browser";
   const isDevelopment = mode === "development";
   const isHot = watch && isBrowser;
@@ -215,15 +224,21 @@ export const createTargetConfig = ({
 };
 
 export const createConfig = ({
-  srcPath = "src",
   buildPath = "build",
   entries = {},
+  postProcess,
+  srcPath = "src",
 }: {
   buildPath?: string;
   entries?: {
     browser?: string;
     node?: string;
   };
+  postProcess?: (
+    configs: WebpackConfiguration[],
+    env: WebpackEnv,
+    argv: WebpackArgv,
+  ) => WebpackConfiguration | WebpackConfiguration[];
   srcPath?: string;
 } = {}) => {
   const cwd = process.cwd();
@@ -236,26 +251,30 @@ export const createConfig = ({
   );
 
   return (
-    _: unknown,
-    { env, mode, watch }: WebpackArgv,
-  ): webpack.Configuration[] => [
-    createTargetConfig({
-      buildPath: buildResolvedPath,
-      entry: browserEntry,
-      env,
-      mode,
-      target: "browser",
-      watch,
-    }),
-    createTargetConfig({
-      buildPath: buildResolvedPath,
-      entry: nodeEntry,
-      env,
-      mode,
-      target: "node",
-      watch,
-    }),
-  ];
+    env: WebpackEnv,
+    argv: WebpackArgv,
+  ): WebpackConfiguration | WebpackConfiguration[] => {
+    const configs = [
+      createTargetConfig({
+        buildPath: buildResolvedPath,
+        entry: browserEntry,
+        env: argv.env,
+        mode: argv.mode,
+        target: "browser",
+        watch: argv.watch,
+      }),
+      createTargetConfig({
+        buildPath: buildResolvedPath,
+        entry: nodeEntry,
+        env: argv.env,
+        mode: argv.mode,
+        target: "node",
+        watch: argv.watch,
+      }),
+    ];
+
+    return postProcess ? postProcess(configs, env, argv) : configs;
+  };
 };
 
 export default createConfig();
