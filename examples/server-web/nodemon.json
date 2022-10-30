@@ -1,0 +1,11 @@
+{
+  "ignoreRoot": [
+    "coverage",
+    "*.log*",
+    ".DS_Store",
+    "*.pem",
+    ".turbo",
+    "node_modules/!(@lessstack/example-client-web)"
+  ],
+  "watch": ["build", "node_modules/@lessstack/example-client-web"]
+}
