@@ -1,8 +1,9 @@
-import ExtractedScripts from "./ExtractedScripts";
+import type { FC, HTMLAttributes } from "react";
+
 import ExtractedLinks from "./ExtractedLinks";
+import ExtractedScripts from "./ExtractedScripts";
 import ExtractedStyles from "./ExtractedStyles";
 import Root from "./Root";
-import type { FC, HTMLAttributes } from "react";
 
 const Document: FC<{
   bodyProps?: HTMLAttributes<HTMLBodyElement>;

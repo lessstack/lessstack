@@ -1,5 +1,5 @@
-import express from "express";
 import createClient from "@lessstack/example-client-web";
+import express from "express";
 
 const app = express();
 

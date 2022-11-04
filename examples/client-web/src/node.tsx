@@ -1,8 +1,9 @@
-import App from "./app";
+import { Config } from "@lessstack/react";
 import { createEntry } from "@lessstack/react/node";
 import { MemoryRouter } from "react-router-dom";
 import type { FC } from "react";
-import { Config } from "@lessstack/react";
+
+import App from "./app";
 
 const NodeApp: FC<{ basename: string; location: string }> = ({
   basename,

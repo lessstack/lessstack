@@ -1,6 +1,7 @@
 import { Config } from "@lessstack/react";
-import type { FC } from "react";
 import { Link } from "react-router-dom";
+import type { FC } from "react";
+
 import routes from "../routes";
 
 const Error404: FC = () => (

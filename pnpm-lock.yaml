@@ -100,6 +100,7 @@ importers:
       eslint-plugin-prettier: ^4.2.1
       eslint-plugin-react: ^7.31.10
       eslint-plugin-react-hooks: ^4.6.0
+      eslint-plugin-simple-import-sort: ^8.0.0
       eslint-plugin-sort-destructure-keys: ^1.4.0
       eslint-plugin-typescript-sort-keys: ^2.1.0
       prettier: ^2.4.1
@@ -112,6 +113,7 @@ importers:
       eslint-plugin-prettier: 4.2.1_aniwkeyvlpmwkidetuytnokvcm
       eslint-plugin-react: 7.31.10_eslint@8.26.0
       eslint-plugin-react-hooks: 4.6.0_eslint@8.26.0
+      eslint-plugin-simple-import-sort: 8.0.0_eslint@8.26.0
       eslint-plugin-sort-destructure-keys: 1.4.0_eslint@8.26.0
       eslint-plugin-typescript-sort-keys: 2.1.0_huremdigmcnkianavgfk3x6iou
     devDependencies:
@@ -3894,6 +3896,14 @@ packages:
       resolve: 2.0.0-next.4
       semver: 6.3.0
       string.prototype.matchall: 4.0.7
+    dev: false
+
+  /eslint-plugin-simple-import-sort/8.0.0_eslint@8.26.0:
+    resolution: {integrity: sha512-bXgJQ+lqhtQBCuWY/FUWdB27j4+lqcvXv5rUARkzbeWLwea+S5eBZEQrhnO+WgX3ZoJHVj0cn943iyXwByHHQw==}
+    peerDependencies:
+      eslint: '>=5.0.0'
+    dependencies:
+      eslint: 8.26.0
     dev: false
 
   /eslint-plugin-sort-destructure-keys/1.4.0_eslint@8.26.0:

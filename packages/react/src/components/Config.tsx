@@ -1,5 +1,6 @@
-import type { FC, ReactNode } from "react";
 import { useContext } from "react";
+import type { FC, ReactNode } from "react";
+
 import ConfigContext from "../contexts/Config";
 import type { RenderOptions } from "../types";
 

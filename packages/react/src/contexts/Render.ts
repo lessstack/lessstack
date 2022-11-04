@@ -1,8 +1,8 @@
 import { createContext } from "react";
-
 import type { ReactElement } from "react";
-import type { RenderOptions } from "../types";
+
 import type { RenderCollector } from "../renderCollector";
+import type { RenderOptions } from "../types";
 
 export type RenderContextProps = {
   collector: RenderCollector;

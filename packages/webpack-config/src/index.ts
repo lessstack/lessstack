@@ -1,12 +1,12 @@
-import path from "path";
-
-import type { Configuration as WebpackConfiguration } from "webpack";
-import webpack from "webpack";
-import { WebpackPluginServe } from "webpack-plugin-serve";
 import WebpackLoadablePlugin from "@loadable/webpack-plugin";
-import WebpackMiniCssExtractPlugin from "mini-css-extract-plugin";
 import WebpackReactRefreshPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import ImageMinimizerPlugin from "image-minimizer-webpack-plugin";
+import WebpackMiniCssExtractPlugin from "mini-css-extract-plugin";
+import path from "path";
+import webpack from "webpack";
+import { WebpackPluginServe } from "webpack-plugin-serve";
+import type { Configuration as WebpackConfiguration } from "webpack";
+
 import BundleAsFunction from "./BundleAsFunction";
 
 export type WebpackArgv = {

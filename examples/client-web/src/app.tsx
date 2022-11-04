@@ -1,8 +1,10 @@
 import { Config, loadable } from "@lessstack/react";
-import type { FC } from "react";
 import { Route, Routes } from "react-router-dom";
-import logo from "./logo.svg";
+import type { FC } from "react";
+
 import routes from "./routes";
+
+import logo from "./logo.svg";
 
 const Error404 = loadable(() => import("./pages/Error404"));
 const PageA = loadable(() => import("./pages/PageA"));

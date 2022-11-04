@@ -1,19 +1,19 @@
+import { ChunkExtractor } from "@loadable/server";
+import { StrictMode } from "react";
 import { renderToPipeableStream, renderToStaticMarkup } from "react-dom/server";
 import { PassThrough } from "stream";
-import { StrictMode } from "react";
-import { ChunkExtractor } from "@loadable/server";
-import ConfigContext from "../contexts/Config";
-import { validateCollector } from "../renderCollector";
-import NodeWrapper from "../components/NodeWrapper";
-import Document from "../components/Document";
-
 import type { ServerResponse } from "http";
 import type { Writable } from "stream";
-import type { RendererBaseOptions, RenderOptions } from "../types";
+
+import Document from "../components/Document";
+import NodeWrapper from "../components/NodeWrapper";
+import ConfigContext from "../contexts/Config";
+import { validateCollector } from "../renderCollector";
 import type {
   RenderCollector,
   RenderCollectorLogger,
 } from "../renderCollector";
+import type { RendererBaseOptions, RenderOptions } from "../types";
 
 export const redirectionStatusCodes = [
   300, 301, 302, 303, 304, 307, 308,

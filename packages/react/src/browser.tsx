@@ -1,14 +1,15 @@
 /* eslint-env browser */
-import type { ComponentType } from "react";
+import { default as loadable, lazy, loadableReady } from "@loadable/component";
 import { StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
-import { loadableReady, lazy, default as loadable } from "@loadable/component";
+import type { ComponentType } from "react";
+
+import Config from "./components/Config";
+import Document from "./components/Document";
 import Links from "./components/ExtractedLinks";
 import Scripts from "./components/ExtractedScripts";
 import Styles from "./components/ExtractedStyles";
 import Root from "./components/Root";
-import Config from "./components/Config";
-import Document from "./components/Document";
 
 export const hydrate = <Props extends object = object>(
   Component: ComponentType<Props>,
@@ -31,4 +32,4 @@ export const hydrate = <Props extends object = object>(
     );
   });
 
-export { lazy, loadable, Config, Document, Root, Links, Scripts, Styles };
+export { Config, Document, lazy, Links, loadable, Root, Scripts, Styles };

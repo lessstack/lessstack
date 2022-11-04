@@ -1,6 +1,6 @@
 import { createContext } from "react";
-import Document from "../components/Document";
 
+import Document from "../components/Document";
 import type { RenderOptions } from "../types";
 
 const ConfigContext = createContext<RenderOptions>({

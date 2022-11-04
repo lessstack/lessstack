@@ -1,5 +1,6 @@
-import type { FC, JSXElementConstructor } from "react";
 import { useContext } from "react";
+import type { FC, JSXElementConstructor } from "react";
+
 import RenderContext from "../contexts/Render";
 
 const Root: FC<{

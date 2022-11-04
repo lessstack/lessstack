@@ -1,5 +1,5 @@
-import type { Compiler } from "webpack";
 import { Compilation, sources } from "webpack";
+import type { Compiler } from "webpack";
 
 export default class BundleAsFunction {
   apply(compiler: Compiler) {

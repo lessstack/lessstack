@@ -1,7 +1,8 @@
 import path from "path";
-import type { RenderToStreamOptions } from "./renderer/stream";
-import { renderToStream } from "./renderer/stream";
 import type { ComponentType } from "react";
+
+import { renderToStream } from "./renderer/stream";
+import type { RenderToStreamOptions } from "./renderer/stream";
 
 export const statsPath = path.resolve(
   __dirname,

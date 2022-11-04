@@ -1,10 +1,10 @@
 import { useMemo } from "react";
-import RenderContext from "../contexts/Render";
-
-import type { FC, ReactElement } from "react";
 import type { ChunkExtractor } from "@loadable/server";
-import type { RenderCollector } from "../renderCollector";
+import type { FC, ReactElement } from "react";
+
+import RenderContext from "../contexts/Render";
 import type { RenderContextProps } from "../contexts/Render";
+import type { RenderCollector } from "../renderCollector";
 import type { InitialProps, LessstackRuntimeProps } from "../types";
 
 const NodeWrapper: FC<{
