@@ -6,9 +6,10 @@
   "author": "Cahnory (https://github.com/cahnory)",
   "repository": "https://github.com/lessstack/lessstack",
   "scripts": {
-    "lint": "eslint && tsc --noEmit",
     "build": "tsc --outDir build",
-    "dev": "tsc --outDir build --watch"
+    "dev": "tsc --outDir build --watch",
+    "format": "eslint . --fix",
+    "lint": "eslint . && tsc --noEmit"
   },
   "dependencies": {
     "@babel/core": "^7.18.5",

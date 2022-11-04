@@ -7,9 +7,10 @@
   "repository": "https://github.com/lessstack/lessstack",
   "private": true,
   "scripts": {
-    "lint": "eslint && tsc --noEmit",
     "build": "webpack",
-    "dev": "webpack --watch"
+    "dev": "webpack --watch",
+    "format": "eslint . --fix",
+    "lint": "eslint . && tsc --noEmit"
   },
   "devDependencies": {
     "@lessstack/eslint-config": "workspace:*",

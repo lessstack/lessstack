@@ -7,9 +7,10 @@
   "repository": "https://github.com/lessstack/lessstack",
   "private": true,
   "scripts": {
-    "lint": "eslint && tsc --noEmit",
     "build": "tsc --outDir build",
     "dev": "tsc --outDir build --watch & nodemon build/index",
+    "format": "eslint . --fix",
+    "lint": "eslint . && tsc --noEmit",
     "start": "node build/index"
   },
   "devDependencies": {

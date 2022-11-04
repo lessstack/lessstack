@@ -9,8 +9,11 @@
       "cache": false,
       "outputs": ["build/**"]
     },
+    "format": {
+      "dependsOn": ["@lessstack/eslint-config#build"]
+    },
     "lint": {
-      "outputs": []
+      "dependsOn": ["@lessstack/eslint-config#build"]
     }
   }
 }

@@ -9,6 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run build && turbo run dev --parallel",
+    "format": "turbo run format",
     "lint": "turbo run lint",
     "prepare": "husky install"
   },
