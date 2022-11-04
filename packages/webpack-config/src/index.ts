@@ -115,6 +115,14 @@ export const createTargetConfig = ({
         //   ],
         // },
         {
+          test: /\.mdx?$/,
+          use: [
+            {
+              loader: require.resolve("@mdx-js/loader"),
+            },
+          ],
+        },
+        {
           test: /\.css$/,
           use: [
             {

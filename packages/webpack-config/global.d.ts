@@ -1,4 +1,16 @@
 /**
+ * Markdown/MDX
+ */
+declare module "*.md" {
+  const component: React.JSXElementConstructor<Record<string, unknown>>;
+  export default component;
+}
+declare module "*.mdx" {
+  const component: React.JSXElementConstructor<Record<string, unknown>>;
+  export default component;
+}
+
+/**
  * Images
  */
 declare module "*.gif" {
