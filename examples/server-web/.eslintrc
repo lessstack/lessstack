@@ -1,4 +1,4 @@
 {
   "root": true,
-  "extends": "@lessstack/eslint-config"
+  "extends": ["@lessstack/eslint-config"]
 }

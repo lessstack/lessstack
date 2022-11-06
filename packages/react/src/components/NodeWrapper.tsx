@@ -23,12 +23,12 @@ const NodeWrapper: FC<{
       rootId,
       scripts: [
         <script
-          key="__LESSSTACK_GLOBAL_VARS__"
+          key="LESSSTACK_GLOBAL_VARS"
           dangerouslySetInnerHTML={{
-            __html: `__LESSSTACK_RUNTIME_PROPS__=${JSON.stringify({
+            __html: `LESSSTACK_RUNTIME_PROPS=${JSON.stringify({
               initialProps,
               rootId,
-              webpackPublicPath: __LESSSTACK_RUNTIME_PROPS__.webpackPublicPath,
+              webpackPublicPath: LESSSTACK_RUNTIME_PROPS.webpackPublicPath,
             } as LessstackRuntimeProps)};`,
           }}
         />,

@@ -2,6 +2,7 @@ import { Compilation, sources } from "webpack";
 import type { Compiler } from "webpack";
 
 export default class BundleAsFunction {
+  // eslint-disable-next-line class-methods-use-this
   apply(compiler: Compiler) {
     compiler.hooks.thisCompilation.tap(
       "BundleAsFunction",
@@ -27,7 +28,7 @@ module.exports = ({
 } = {}) => {
   var module = {...module, exports: {} };
   var exports = module.exports;
-  var __LESSSTACK_RUNTIME_PROPS__ = {
+  var LESSSTACK_RUNTIME_PROPS = {
     webpackPublicPath: publicRoute,
   };
 `,

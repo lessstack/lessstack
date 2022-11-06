@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, FC, ReactNode } from "react";
+
 declare type ButtonProps = {
   children: ReactNode;
   isDisabled: boolean;
@@ -6,4 +7,4 @@ declare type ButtonProps = {
 };
 declare const Button: FC<ButtonProps>;
 export default Button;
-//# sourceMappingURL=Button.d.ts.map
+// # sourceMappingURL=Button.d.ts.map

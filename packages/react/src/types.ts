@@ -44,6 +44,6 @@ export type LessstackRuntimeProps = LessstackWebpackRuntimeProps & {
 };
 
 declare global {
-  const __LESSSTACK_BUILD_PROPS__: LessstackWebpackBuildProps;
-  const __LESSSTACK_RUNTIME_PROPS__: LessstackRuntimeProps;
+  const LESSSTACK_BUILD_PROPS: LessstackWebpackBuildProps;
+  const LESSSTACK_RUNTIME_PROPS: LessstackRuntimeProps;
 }

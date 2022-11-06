@@ -6,12 +6,12 @@ import type { RenderToStreamOptions } from "./renderer/stream";
 
 export const statsPath = path.resolve(
   __dirname,
-  __LESSSTACK_BUILD_PROPS__.statsPath,
+  LESSSTACK_BUILD_PROPS.statsPath,
 );
 
 export const publicPath = path.resolve(
   __dirname,
-  __LESSSTACK_BUILD_PROPS__.publicPath,
+  LESSSTACK_BUILD_PROPS.publicPath,
 );
 
 export const createEntry = <Props extends object = object>(
@@ -31,7 +31,7 @@ export const createEntry = <Props extends object = object>(
         component: Component,
         initialProps,
         logger,
-        publicPath: __LESSSTACK_RUNTIME_PROPS__.webpackPublicPath,
+        publicPath: LESSSTACK_RUNTIME_PROPS.webpackPublicPath,
         response,
         statsPath,
       } as RenderToStreamOptions<Props>),

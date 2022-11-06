@@ -31,13 +31,16 @@
   },
   "cSpell.words": [
     "cahnory",
+    "camelcase",
     "commitlint",
     "gifsicle",
     "hydratation",
     "jpegtran",
     "lessstack",
+    "no-plusplus",
     "optipng",
     "Pipeable",
-    "pmmmwh"
+    "pmmmwh",
+    "proptype"
   ]
 }

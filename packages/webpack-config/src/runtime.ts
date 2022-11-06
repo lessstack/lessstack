@@ -1,13 +1,13 @@
 import type { LessstackRuntimeProps } from "./types";
 
 declare global {
-  const __LESSSTACK_RUNTIME_PROPS__: LessstackRuntimeProps | undefined;
+  const LESSSTACK_RUNTIME_PROPS: LessstackRuntimeProps | undefined;
   let __webpack_public_path__: string | undefined;
 }
 
 try {
-  if (typeof __LESSSTACK_RUNTIME_PROPS__?.webpackPublicPath === "string") {
-    __webpack_public_path__ = __LESSSTACK_RUNTIME_PROPS__?.webpackPublicPath;
+  if (typeof LESSSTACK_RUNTIME_PROPS?.webpackPublicPath === "string") {
+    __webpack_public_path__ = LESSSTACK_RUNTIME_PROPS?.webpackPublicPath;
 
     if (
       __webpack_public_path__.length &&

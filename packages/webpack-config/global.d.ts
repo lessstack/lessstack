@@ -1,3 +1,5 @@
+/// <reference types="react" />
+
 /**
  * Markdown/MDX
  */
@@ -33,20 +35,10 @@ declare module "*.png" {
   export default src;
 }
 
-declare module "*.svg" {
-  const src: string;
-  export default src;
-}
-
 /**
  * Fonts
  */
 declare module "*.eot" {
-  const src: string;
-  export default src;
-}
-
-declare module "*.svg" {
   const src: string;
   export default src;
 }
@@ -62,6 +54,14 @@ declare module "*.woff" {
 }
 
 declare module "*.woff2" {
+  const src: string;
+  export default src;
+}
+
+/**
+ * Misc
+ */
+declare module "*.svg" {
   const src: string;
   export default src;
 }

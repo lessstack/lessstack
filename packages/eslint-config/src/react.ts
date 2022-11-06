@@ -38,7 +38,7 @@ const reactConfig: ESLint.ConfigData = {
     "react/default-props-match-prop-types": ["error"],
     /**
      * Destructuring props enforce the use of a single default value by
-     * destructuging assignment.
+     * destructuring assignment.
      * @todo: find rule for enforcing destructuring assignment of optional
      * properties.
      */

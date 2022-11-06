@@ -5,7 +5,7 @@ import { PassThrough } from "stream";
 import type { ServerResponse } from "http";
 import type { Writable } from "stream";
 
-import Document from "../components/Document";
+import DefaultDocument from "../components/Document";
 import NodeWrapper from "../components/NodeWrapper";
 import ConfigContext from "../contexts/Config";
 import { validateCollector } from "../renderCollector";
@@ -15,9 +15,19 @@ import type {
 } from "../renderCollector";
 import type { RendererBaseOptions, RenderOptions } from "../types";
 
-export const redirectionStatusCodes = [
-  300, 301, 302, 303, 304, 307, 308,
-] as const;
+const HTTP_REDIRECTION_STATUS_CODES = {
+  found: 302,
+  movedPermanently: 301,
+  multipleChoices: 300,
+  notModified: 304,
+  permanentRedirect: 308,
+  seeOther: 303,
+  temporaryRedirect: 307,
+} as const;
+
+export const HTTP_REDIRECTION_STATUS_CODES_LIST = Object.values(
+  HTTP_REDIRECTION_STATUS_CODES,
+);
 
 export type RenderToStreamResponse = ServerResponse | Writable;
 
@@ -44,7 +54,7 @@ export const renderToStream = <Props extends object = object>({
 
   const config: RenderOptions = {
     doctype: "<!DOCTYPE html>",
-    document: Document,
+    document: DefaultDocument,
     hydratation: "all",
     initialProps: {},
     response: {
@@ -116,11 +126,11 @@ const startRenderOutput = ({
   if ("writeHead" in response) {
     if (config.response.headers.location) {
       response.writeHead(
-        (redirectionStatusCodes as readonly number[]).includes(
+        (HTTP_REDIRECTION_STATUS_CODES_LIST as readonly number[]).includes(
           config.response.statusCode,
         )
           ? config.response.statusCode
-          : 308,
+          : HTTP_REDIRECTION_STATUS_CODES.permanentRedirect,
         config.response.statusMessage,
         config.response.headers,
       );

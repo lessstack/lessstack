@@ -149,9 +149,8 @@ export const createTargetConfig = ({
       ],
     },
     name: target,
-    optimization: !isBrowser
-      ? {}
-      : {
+    optimization: isBrowser
+      ? {
           moduleIds: "deterministic",
           runtimeChunk: isHot ? "single" : { name: "vendors" },
           splitChunks: {
@@ -164,7 +163,8 @@ export const createTargetConfig = ({
             chunks: "all",
             minSize: 0,
           },
-        },
+        }
+      : {},
     output: {
       clean: isBrowser,
       filename: isBrowser ? "[name].[contenthash].js" : "node.js",
@@ -194,7 +194,7 @@ export const createTargetConfig = ({
         filename: isHot ? "[name].css" : "[name].[contenthash].css",
       }),
       new webpack.DefinePlugin({
-        __LESSSTACK_BUILD_PROPS__: JSON.stringify({
+        LESSSTACK_BUILD_PROPS: JSON.stringify({
           publicPath: "./browser",
           statsPath: `./browser.stats.json`,
         }),

@@ -6,6 +6,7 @@ type Request = ClientRequest & { baseUrl: string; originalUrl: string };
 type Response = ServerResponse;
 
 const app = express();
+const PORT = 3000;
 
 const { entry: primary } = createClient({
   publicRoute: "/assets",
@@ -36,4 +37,4 @@ app.use((req: Request, res: Response) => {
   });
 });
 
-app.listen(3000);
+app.listen(PORT);
