@@ -32,9 +32,9 @@ export const createTargetConfig = ({
   buildPath,
   entry,
   env,
-  mode = "development",
   target = "browser",
   watch = false,
+  mode = watch ? "development" : "production",
 }: WebpackArgv & {
   buildPath: string;
   entry: string;
@@ -49,8 +49,7 @@ export const createTargetConfig = ({
 
   return {
     devtool:
-      (!isBrowser && "source-map") ||
-      (isDevelopment && "eval-cheap-module-source-map"),
+      (!isBrowser && "source-map") || (isDevelopment && "eval-source-map"),
     entry: [
       !isBrowser && require.resolve("source-map-support/register"),
       require.resolve("./runtime"),
@@ -84,10 +83,12 @@ export const createTargetConfig = ({
                       declaration: false,
                       declarationMap: false,
                       outDir: outputPath,
+                      sourceMap: true,
                     }
                   : {
                       declaration: true,
                       outDir: outputPath,
+                      sourceMap: true,
                     },
               },
             },
