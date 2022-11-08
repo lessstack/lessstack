@@ -19,8 +19,8 @@
     "@lessstack/react": "workspace:*",
     "@lessstack/typescript-config": "workspace:*",
     "@types/express": "^4.17.14",
-    "@types/node": "^18.8.5",
-    "eslint": "^8.26.0",
+    "@types/node": "^18.11.9",
+    "eslint": "^8.27.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.4.1",
     "typescript": "^4.7.4"

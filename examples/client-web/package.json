@@ -17,8 +17,8 @@
     "@lessstack/prettier-config": "workspace:*",
     "@lessstack/typescript-config": "workspace:*",
     "@lessstack/webpack-config": "workspace:*",
-    "@types/react": "^18.0.17",
-    "eslint": "^8.26.0",
+    "@types/react": "^18.0.25",
+    "eslint": "^8.27.0",
     "prettier": "^2.4.1",
     "typescript": "^4.7.4",
     "webpack": "^5.74.0",
@@ -27,6 +27,6 @@
   "dependencies": {
     "@lessstack/react": "workspace:*",
     "react": "^18.2.0",
-    "react-router-dom": "^6.4.2"
+    "react-router-dom": "^6.4.3"
   }
 }
