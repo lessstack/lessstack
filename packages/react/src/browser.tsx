@@ -1,6 +1,6 @@
 /* eslint-env browser */
-import loadable, { lazy, loadableReady } from "@loadable/component";
-import { StrictMode } from "react";
+import loadable, { loadableReady } from "@loadable/component";
+import { lazy, StrictMode, Suspense } from "react";
 import { hydrateRoot } from "react-dom/client";
 import type { ComponentType } from "react";
 
@@ -27,7 +27,9 @@ export const hydrate = <Props extends object = object>(
     hydrateRoot(
       root,
       <StrictMode>
-        <Component {...(LESSSTACK_RUNTIME_PROPS.initialProps as Props)} />
+        <Suspense>
+          <Component {...(LESSSTACK_RUNTIME_PROPS.initialProps as Props)} />
+        </Suspense>
       </StrictMode>,
     );
   });

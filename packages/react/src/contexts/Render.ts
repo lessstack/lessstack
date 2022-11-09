@@ -1,16 +1,13 @@
 import { createContext } from "react";
-import type { ReactElement } from "react";
 
 import type { RenderCollector } from "../renderCollector";
-import type { RenderOptions } from "../types";
+import type { RenderExtraction, RenderOptions } from "../types";
 
 export type RenderContextProps = {
   collector: RenderCollector;
-  links: ReactElement[];
+  extraction: RenderExtraction;
   rootHtml: string;
   rootId: RenderOptions["rootId"];
-  scripts: JSX.Element[];
-  styles: ReactElement[];
 };
 
 const RenderContext = createContext<RenderContextProps>({
@@ -20,11 +17,13 @@ const RenderContext = createContext<RenderContextProps>({
     scriptsAdded: false,
     stylesAdded: false,
   },
-  links: [],
+  extraction: {
+    linkElements: [],
+    scriptElements: [],
+    styleElements: [],
+  },
   rootHtml: "",
   rootId: "root",
-  scripts: [],
-  styles: [],
 });
 
 export default RenderContext;

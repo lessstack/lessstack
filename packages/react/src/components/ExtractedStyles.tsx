@@ -4,9 +4,9 @@ import type { FC } from "react";
 import RenderContext from "../contexts/Render";
 
 const ExtractedStyles: FC = () => {
-  const { collector, styles } = useContext(RenderContext);
+  const { collector, extraction } = useContext(RenderContext);
   collector.stylesAdded = true;
-  return <>{styles}</>;
+  return <>{extraction.styleElements}</>;
 };
 
 export default ExtractedStyles;

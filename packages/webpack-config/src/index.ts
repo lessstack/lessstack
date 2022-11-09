@@ -68,10 +68,7 @@ export const createTargetConfig = ({
             {
               loader: require.resolve("babel-loader"),
               options: {
-                plugins: [
-                  "@babel/plugin-transform-runtime",
-                  "@loadable/babel-plugin",
-                ],
+                plugins: ["@loadable/babel-plugin"],
                 presets: ["@babel/preset-env", "@babel/preset-typescript"],
               },
             },

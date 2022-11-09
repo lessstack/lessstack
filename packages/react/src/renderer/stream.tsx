@@ -1,8 +1,9 @@
 import { ChunkExtractor } from "@loadable/server";
-import { StrictMode } from "react";
+import { StrictMode, Suspense } from "react";
 import { renderToPipeableStream, renderToStaticMarkup } from "react-dom/server";
 import { PassThrough } from "stream";
 import type { ServerResponse } from "http";
+import type { ReactElement } from "react";
 import type { Writable } from "stream";
 
 import DefaultDocument from "../components/Document";
@@ -13,7 +14,12 @@ import type {
   RenderCollector,
   RenderCollectorLogger,
 } from "../renderCollector";
-import type { RendererBaseOptions, RenderOptions } from "../types";
+import type {
+  LessstackRuntimeProps,
+  RendererBaseOptions,
+  RenderExtraction,
+  RenderOptions,
+} from "../types";
 
 const HTTP_REDIRECTION_STATUS_CODES = {
   found: 302,
@@ -69,7 +75,9 @@ export const renderToStream = <Props extends object = object>({
   const { pipe } = renderToPipeableStream(
     extractor.collectChunks(
       <ConfigContext.Provider value={config}>
-        <Component {...initialProps} />
+        <Suspense>
+          <Component {...initialProps} />
+        </Suspense>
       </ConfigContext.Provider>,
     ),
     {
@@ -144,7 +152,7 @@ const startRenderOutput = ({
     );
   }
 
-  const { document: Document, initialProps, rootId } = config;
+  const { document: Document, rootId } = config;
   const collector: RenderCollector = {
     linksAdded: false,
     rootAdded: false,
@@ -155,8 +163,7 @@ const startRenderOutput = ({
     <StrictMode>
       <NodeWrapper
         collector={collector}
-        extractor={extractor}
-        initialProps={initialProps}
+        extraction={extract(extractor, config)}
         rootHtml={">>>><<<<"}
         rootId={rootId}
       >
@@ -177,3 +184,35 @@ const startRenderOutput = ({
   });
   return pipe(pass);
 };
+
+const filterHmrElements = (elements: ReactElement[]) =>
+  elements.filter(
+    (element) =>
+      !(element.props.src || element.props.href)?.match(/-wps-hmr\.[^.\\/]+$/),
+  );
+
+const extract = (
+  extractor: ChunkExtractor,
+  config: RenderOptions,
+): RenderExtraction => ({
+  linkElements: filterHmrElements(
+    extractor.getLinkElements(),
+  ) as RenderExtraction["linkElements"],
+  scriptElements: [
+    <script
+      key="LESSSTACK_GLOBAL_VARS"
+      dangerouslySetInnerHTML={{
+        __html: `LESSSTACK_RUNTIME_PROPS=${JSON.stringify({
+          initialProps: config.initialProps,
+          rootId: config.rootId,
+          webpackPublicPath: LESSSTACK_RUNTIME_PROPS.webpackPublicPath,
+        } as LessstackRuntimeProps)};`,
+      }}
+    />,
+  ].concat(
+    filterHmrElements(extractor.getScriptElements()),
+  ) as RenderExtraction["scriptElements"],
+  styleElements: filterHmrElements(
+    extractor.getStyleElements(),
+  ) as RenderExtraction["styleElements"],
+});

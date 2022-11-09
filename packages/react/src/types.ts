@@ -2,7 +2,12 @@ import type {
   LessstackBuildProps as LessstackWebpackBuildProps,
   LessstackRuntimeProps as LessstackWebpackRuntimeProps,
 } from "@lessstack/webpack-config/types";
-import type { ComponentType } from "react";
+import type {
+  ComponentType,
+  ReactElement,
+  ReactHTML,
+  ReactHTMLElement,
+} from "react";
 
 export type RootId = string;
 export type InitialProps = object;
@@ -41,6 +46,12 @@ export type RenderOptions<Props extends object = object> = {
 export type LessstackRuntimeProps = LessstackWebpackRuntimeProps & {
   initialProps: InitialProps;
   rootId: RootId;
+};
+
+export type RenderExtraction = {
+  linkElements: ReactHTMLElement<HTMLLinkElement>[];
+  scriptElements: ReactHTMLElement<HTMLScriptElement>[];
+  styleElements: ReactHTMLElement<HTMLStyleElement>[];
 };
 
 declare global {

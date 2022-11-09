@@ -4,9 +4,9 @@ import type { FC } from "react";
 import RenderContext from "../contexts/Render";
 
 const ExtractedLinks: FC = () => {
-  const { collector, links } = useContext(RenderContext);
+  const { collector, extraction } = useContext(RenderContext);
   collector.linksAdded = true;
-  return <>{links}</>;
+  return <>{extraction.linkElements}</>;
 };
 
 export default ExtractedLinks;

@@ -4,9 +4,9 @@ import type { FC } from "react";
 import RenderContext from "../contexts/Render";
 
 const ExtractedScripts: FC = () => {
-  const { collector, scripts } = useContext(RenderContext);
+  const { collector, extraction } = useContext(RenderContext);
   collector.scriptsAdded = true;
-  return <>{scripts}</>;
+  return <>{extraction.scriptElements}</>;
 };
 
 export default ExtractedScripts;
